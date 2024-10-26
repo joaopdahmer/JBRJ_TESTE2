@@ -19,9 +19,9 @@
               "motivation": "sc:painting",
               "on": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/canvas/1",
               "resource": {
-                "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1844.jpeg",
+                "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1844_transparente.png",
                 "@type": "dctypes:Image",
-                "format": "image/jpeg",
+                "format": "image/png",
                 "height": 5000,
                 "width": 4000
               }
