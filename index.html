@@ -41,6 +41,19 @@
       border-radius: 8px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     }
+
+    /* Estilo para o slider de opacidade */
+    .opacity-control {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
   </style>
 </head>
 <body>
@@ -66,6 +79,12 @@
       <h2>Comparação entre os Mapas</h2>
       <p>Veja a sobreposição dos mapas de 1844 e 2024 para entender as mudanças ao longo do tempo.</p>
     </div>
+  </div>
+
+  <!-- Controle de Transparência -->
+  <div class="opacity-control">
+    <label for="opacity">Transparência: </label>
+    <input type="range" id="opacity" min="0" max="1" step="0.1" value="0.7">
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -95,6 +114,13 @@
 
     // Ajustando o mapa para caber nos limites da sobreposição
     map.fitBounds(bounds);
+
+    // Controle de transparência
+    const opacitySlider = document.getElementById('opacity');
+    opacitySlider.addEventListener('input', (e) => {
+      const opacity = parseFloat(e.target.value);
+      overlay.setOpacity(opacity);
+    });
   </script>
 </body>
 </html>
