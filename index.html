@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa do Jardim Botânico - 1844 sobre 2024</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="https://iiif-leaflet.s3.amazonaws.com/leaflet-iiif.js"></script>
+
+  <script>
+    // Inicializando o mapa
+    const map = L.map('map').setView([0, 0], 2);
+
+    // Camada do mapa atual (2024) - substitua a URL com a correta se necessário
+    const atualLayer = L.tileLayer.iiif(
+      'https://iiif.io/api/image/2/demo/region-map/info.json'
+    ).addTo(map);
+
+    // Camada do mapa de 1844 - URL do manifesto do GitHub
+    const mapa1844 = L.tileLayer.iiif(
+      'https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest.json'
+    );
+
+    // Controle de camadas para alternar entre os mapas
+    const baseMaps = {
+      "Mapa Atual (2024)": atualLayer,
+      "Mapa Histórico (1844)": mapa1844
+    };
+
+    L.control.layers(baseMaps).addTo(map);
+  </script>
+</body>
+</html>
