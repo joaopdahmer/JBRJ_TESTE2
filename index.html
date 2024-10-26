@@ -1,32 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mapa do Jardim Botânico - 1844 sobre 2024</title>
+
+  <!-- Estilo do Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+  <!-- Estilo Personalizado -->
   <style>
-    #map {
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
       height: 100vh;
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
     }
+
+    /* Layout principal com narrativa em volta do mapa */
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      grid-template-rows: 1fr 2fr 1fr;
+      width: 100%;
+      height: 100vh;
+      gap: 10px;
+    }
+
+    .narrative {
+      padding: 10px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Estilo para o mapa centralizado */
+    #map {
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+      height: 100%;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Narrativa ao redor do mapa */
+    .top-narrative { grid-column: 2 / 3; grid-row: 1 / 2; }
+    .left-narrative { grid-column: 1 / 2; grid-row: 2 / 3; }
+    .right-narrative { grid-column: 3 / 4; grid-row: 2 / 3; }
+    .bottom-narrative { grid-column: 2 / 3; grid-row: 3 / 4; }
+
   </style>
 </head>
 <body>
-  <div id="map"></div>
+  <div class="container">
+    <div class="narrative top-narrative">
+      <h2>História do Jardim Botânico</h2>
+      <p>O Jardim Botânico do Rio de Janeiro foi fundado em 1808 e desde então passou por diversas transformações. O mapa de 1844 representa uma fase importante na evolução desse espaço, destacando as primeiras áreas cultivadas.</p>
+    </div>
 
+    <div class="narrative left-narrative">
+      <h2>Mapa Histórico</h2>
+      <p>O mapa de 1844, disponível abaixo, mostra uma visão detalhada do layout original do jardim, destacando elementos que não estão mais presentes na configuração atual.</p>
+    </div>
+
+    <div id="map"></div>
+
+    <div class="narrative right-narrative">
+      <h2>Mapa Atual</h2>
+      <p>A versão moderna do Jardim Botânico preserva sua história ao mesmo tempo em que se adapta às necessidades contemporâneas, com áreas de pesquisa científica e conservação.</p>
+    </div>
+
+    <div class="narrative bottom-narrative">
+      <h2>Comparação entre os Mapas</h2>
+      <p>Através da sobreposição dos mapas de 1844 e 2024, é possível observar como o espaço evoluiu ao longo dos anos. Use o controle de camadas para alternar entre as versões.</p>
+    </div>
+  </div>
+
+  <!-- Scripts do Leaflet -->
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script src="https://iiif-leaflet.s3.amazonaws.com/leaflet-iiif.js"></script>
 
   <script>
-    // Inicializando o mapa
+    // Inicializando o mapa central
     const map = L.map('map').setView([0, 0], 2);
 
-    // Camada do mapa atual (2024) - substitua a URL com a correta se necessário
+    // Camada do mapa atual (2024) - substitua pela URL do mapa moderno
     const atualLayer = L.tileLayer.iiif(
       'https://iiif.io/api/image/2/demo/region-map/info.json'
     ).addTo(map);
 
-    // Camada do mapa de 1844 - URL do manifesto do GitHub
+    // Camada do mapa de 1844 - URL do manifesto no GitHub
     const mapa1844 = L.tileLayer.iiif(
       'https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest.json'
     );
