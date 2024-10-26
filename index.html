@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mapa do Jardim Botânico - 1844 sobre 2024</title>
 
+  <!-- Estilo do Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 
   <style>
@@ -103,9 +104,9 @@
       [-22.9313869757742950, -43.1775861596917423]  // Canto superior direito
     );
 
-    // Adicionando o mapa de 1844 como uma imagem sobreposta
+    // Adicionando o mapa de 1844 com fundo transparente
     const overlay = L.imageOverlay(
-      'https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1844.jpeg',
+      'https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1844.png',
       bounds,
       { opacity: 0.7 }
     ).addTo(map);
