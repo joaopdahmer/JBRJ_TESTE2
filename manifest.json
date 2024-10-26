@@ -2,12 +2,10 @@
   "@context": "http://iiif.io/api/presentation/2/context.json",
   "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest.json",
   "@type": "sc:Manifest",
-  "label": "Mapa do Jardim Botânico do Rio de Janeiro - 1844",
-  "description": "Mapa histórico do Jardim Botânico do Rio de Janeiro, datado de 1844.",
+  "label": "Mapa 1844",
   "sequences": [
     {
       "@type": "sc:Sequence",
-      "label": "Página principal",
       "canvases": [
         {
           "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/canvas/1",
@@ -25,12 +23,7 @@
                 "@type": "dctypes:Image",
                 "format": "image/jpeg",
                 "height": 5000,
-                "width": 4000,
-                "service": {
-                  "@context": "http://iiif.io/api/image/2/context.json",
-                  "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1844.jpeg",
-                  "profile": "http://iiif.io/api/image/2/level2.json"
-                }
+                "width": 4000
               }
             }
           ]
