@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mapa do Jardim Botânico - 1844 sobre 2024</title>
 
+  <!-- Estilo do Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 
   <style>
@@ -68,9 +69,10 @@
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
   <script>
-    // Inicializando o mapa com foco no Jardim Botânico
-    const map = L.map('map').setView([-22.976, -43.229], 16);
+    // Inicializando o mapa com foco na área georreferenciada
+    const map = L.map('map').setView([-22.975, -43.225], 15);
 
     // Adicionando a camada base do OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -78,20 +80,20 @@
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Definindo as coordenadas dos cantos do mapa histórico (1844)
+    // Definindo os limites do mapa de 1844 com base nas coordenadas fornecidas
     const bounds = L.latLngBounds(
-      [-22.979167, -43.231389], // Canto inferior esquerdo
-      [-22.974722, -43.2225] // Canto superior direito
+      [-23.0169534456901026, -43.2705882790006555], // Canto inferior esquerdo
+      [-22.9313869757742950, -43.1775861596917423]  // Canto superior direito
     );
 
-    // Adicionando o mapa histórico como imagem sobreposta
+    // Adicionando o mapa de 1844 como uma imagem sobreposta
     const overlay = L.imageOverlay(
       'https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1844.jpeg',
       bounds,
       { opacity: 0.7 }
     ).addTo(map);
 
-    // Ajustando o mapa para mostrar a área completa do Jardim Botânico
+    // Ajustando o mapa para caber nos limites da sobreposição
     map.fitBounds(bounds);
   </script>
 </body>
