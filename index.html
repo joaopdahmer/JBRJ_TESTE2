@@ -100,28 +100,34 @@
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Definindo os limites para as imagens históricas
-    const bounds = L.latLngBounds(
-      [-23.0169534456901026, -43.2705882790006555], // Canto inferior esquerdo
-      [-22.9313869757742950, -43.1775861596917423]  // Canto superior direito
+    // Definindo os limites para o mapa de 1809 com base nas coordenadas fornecidas
+    const bounds1809 = L.latLngBounds(
+      [-23.0113779499199964, -43.2596250916993768], // Canto inferior esquerdo
+      [-22.9426905266075174, -43.1790781611284729]  // Canto superior direito
     );
 
     // Adicionando o mapa de 1809 como camada
     const map1809 = L.imageOverlay(
       'https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1809.png',
-      bounds,
+      bounds1809,
       { opacity: 0.7 }
+    );
+
+    // Definindo os limites para o mapa de 1844
+    const bounds1844 = L.latLngBounds(
+      [-23.0169534456901026, -43.2705882790006555], // Canto inferior esquerdo
+      [-22.9313869757742950, -43.1775861596917423]  // Canto superior direito
     );
 
     // Adicionando o mapa de 1844 como camada
     const map1844 = L.imageOverlay(
       'https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1844.png',
-      bounds,
+      bounds1844,
       { opacity: 0.7 }
     );
 
     // Ajustando o mapa para caber nos limites
-    map.fitBounds(bounds);
+    map.fitBounds(bounds1809);
 
     // Controle de transparência
     const opacitySlider = document.getElementById('opacity');
