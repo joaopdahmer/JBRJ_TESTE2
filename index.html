@@ -12,39 +12,52 @@
     body {
       margin: 0;
       padding: 0;
-      display: flex;
-      height: 100vh;
       font-family: Arial, sans-serif;
       background-color: #f0f0f0;
-    }
-
-    .container {
-      display: grid;
-      grid-template-columns: 1fr 2fr 1fr;
-      grid-template-rows: 1fr 2fr 1fr;
-      width: 100%;
+      display: flex;
+      flex-direction: column;
       height: 100vh;
-      gap: 10px;
     }
 
-    .narrative {
+    /* Estilo para o mapa ocupando a área central da tela */
+    #map {
+      flex-grow: 1;
+      width: 100%;
+      position: relative;
+    }
+
+    /* Estilos para os textos superiores e inferiores */
+    .narrative-top, .narrative-bottom {
+      text-align: center;
       padding: 10px;
       background-color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Gerenciador de camadas nas laterais */
+    .layer-control {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 10px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
     }
 
-    #map {
-      grid-column: 2 / 3;
-      grid-row: 2 / 3;
-      height: 100%;
-      border-radius: 8px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    .layer-control.left {
+      left: 10px;
     }
 
+    .layer-control.right {
+      right: 10px;
+    }
+
+    /* Controle de opacidade centralizado na parte inferior */
     .opacity-control {
       position: absolute;
-      top: 10px;
+      bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
       background-color: rgba(255, 255, 255, 0.8);
@@ -56,29 +69,23 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="narrative top-narrative">
-      <h2>História do Jardim Botânico</h2>
-      <p>O Jardim Botânico do Rio de Janeiro foi fundado em 1808. O mapa de 1844 representa uma fase importante na evolução desse espaço.</p>
-    </div>
 
-    <div class="narrative left-narrative">
-      <h2>Mapa Histórico</h2>
-      <p>O mapa de 1844 mostra a configuração original do Jardim Botânico, com elementos que mudaram ao longo dos anos.</p>
-    </div>
-
-    <div id="map"></div>
-
-    <div class="narrative right-narrative">
-      <h2>Mapa Atual</h2>
-      <p>A versão moderna do Jardim Botânico é um espaço para pesquisa científica e preservação da biodiversidade.</p>
-    </div>
-
-    <div class="narrative bottom-narrative">
-      <h2>Comparação entre os Mapas</h2>
-      <p>Veja a sobreposição dos mapas de 1844 e 2024 para entender as mudanças ao longo do tempo.</p>
-    </div>
+  <div class="narrative-top">
+    <h2>História do Jardim Botânico</h2>
+    <p>O Jardim Botânico do Rio de Janeiro foi fundado em 1808. O mapa de 1844 representa uma fase importante na evolução desse espaço.</p>
   </div>
+
+  <div id="map"></div>
+
+  <div class="narrative-bottom">
+    <h2>Fonte</h2>
+    <p>Superintendência de Desenvolvimento Urbano (SDU)</p>
+    <p>Veja a sobreposição dos mapas de 1844 e 2024 para entender as mudanças ao longo do tempo.</p>
+  </div>
+
+  <!-- Gerenciador de Camadas -->
+  <div class="layer-control left"></div>
+  <div class="layer-control right"></div>
 
   <!-- Controle de Transparência -->
   <div class="opacity-control">
@@ -89,37 +96,49 @@
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
   <script>
-    // Inicializando o mapa com foco na área georreferenciada
+    // Inicializando o mapa
     const map = L.map('map').setView([-22.975, -43.225], 15);
 
     // Adicionando a camada base do OpenStreetMap
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Definindo os limites do mapa de 1844 com base nas coordenadas fornecidas
+    // Definindo os limites do mapa de 1844
     const bounds = L.latLngBounds(
       [-23.0169534456901026, -43.2705882790006555], // Canto inferior esquerdo
       [-22.9313869757742950, -43.1775861596917423]  // Canto superior direito
     );
 
-    // Adicionando o mapa de 1844 com fundo transparente
-    const overlay = L.imageOverlay(
+    // Adicionando a sobreposição do mapa de 1844
+    const historicalLayer = L.imageOverlay(
       'https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1844.png',
       bounds,
       { opacity: 0.7 }
     ).addTo(map);
 
-    // Ajustando o mapa para caber nos limites da sobreposição
+    // Ajustar o mapa para caber nos limites
     map.fitBounds(bounds);
 
-    // Controle de transparência
+    // Controle de opacidade
     const opacitySlider = document.getElementById('opacity');
     opacitySlider.addEventListener('input', (e) => {
       const opacity = parseFloat(e.target.value);
-      overlay.setOpacity(opacity);
+      historicalLayer.setOpacity(opacity);
     });
+
+    // Adicionando o controle de camadas
+    const baseLayers = {
+      "OpenStreetMap": osmLayer
+    };
+
+    const overlayLayers = {
+      "Mapa Histórico (1844)": historicalLayer
+    };
+
+    L.control.layers(baseLayers, overlayLayers, { position: 'topright' }).addTo(map);
   </script>
+
 </body>
 </html>
