@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mapa do Jardim Botânico - 1844 sobre 2024</title>
+  <title>Mapa do Jardim Botânico - 1809 e 1844</title>
 
   <!-- Estilo do Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -13,20 +13,20 @@
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
       display: flex;
       flex-direction: column;
       height: 100vh;
+      background-color: #f0f0f0;
     }
 
-    /* Estilo para o mapa ocupando a área central da tela */
+    /* Mapa ocupando toda a tela */
     #map {
       flex-grow: 1;
       width: 100%;
       position: relative;
     }
 
-    /* Estilos para os textos superiores e inferiores */
+    /* Narrativas superiores e inferiores */
     .narrative-top, .narrative-bottom {
       text-align: center;
       padding: 10px;
@@ -34,7 +34,7 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    /* Gerenciador de camadas nas laterais */
+    /* Controle de camadas nas laterais */
     .layer-control {
       position: absolute;
       top: 50%;
@@ -54,7 +54,7 @@
       right: 10px;
     }
 
-    /* Controle de opacidade centralizado na parte inferior */
+    /* Controle de opacidade na parte inferior */
     .opacity-control {
       position: absolute;
       bottom: 10px;
@@ -72,7 +72,7 @@
 
   <div class="narrative-top">
     <h2>História do Jardim Botânico</h2>
-    <p>O Jardim Botânico do Rio de Janeiro foi fundado em 1808. O mapa de 1844 representa uma fase importante na evolução desse espaço.</p>
+    <p>O Jardim Botânico do Rio de Janeiro foi fundado em 1808. Explore os mapas históricos de 1809 e 1844 para entender as transformações do espaço.</p>
   </div>
 
   <div id="map"></div>
@@ -80,12 +80,7 @@
   <div class="narrative-bottom">
     <h2>Fonte</h2>
     <p>Superintendência de Desenvolvimento Urbano (SDU)</p>
-    <p>Veja a sobreposição dos mapas de 1844 e 2024 para entender as mudanças ao longo do tempo.</p>
   </div>
-
-  <!-- Gerenciador de Camadas -->
-  <div class="layer-control left"></div>
-  <div class="layer-control right"></div>
 
   <!-- Controle de Transparência -->
   <div class="opacity-control">
@@ -96,7 +91,7 @@
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
   <script>
-    // Inicializando o mapa
+    // Inicializando o mapa com foco no Jardim Botânico
     const map = L.map('map').setView([-22.975, -43.225], 15);
 
     // Adicionando a camada base do OpenStreetMap
@@ -105,27 +100,35 @@
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Definindo os limites do mapa de 1844
+    // Definindo os limites para as imagens históricas
     const bounds = L.latLngBounds(
       [-23.0169534456901026, -43.2705882790006555], // Canto inferior esquerdo
       [-22.9313869757742950, -43.1775861596917423]  // Canto superior direito
     );
 
-    // Adicionando a sobreposição do mapa de 1844
-    const historicalLayer = L.imageOverlay(
+    // Adicionando o mapa de 1809 como camada
+    const map1809 = L.imageOverlay(
+      'https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1809_reduzido.png',
+      bounds,
+      { opacity: 0.7 }
+    );
+
+    // Adicionando o mapa de 1844 como camada
+    const map1844 = L.imageOverlay(
       'https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1844.png',
       bounds,
       { opacity: 0.7 }
-    ).addTo(map);
+    );
 
-    // Ajustar o mapa para caber nos limites
+    // Ajustando o mapa para caber nos limites
     map.fitBounds(bounds);
 
-    // Controle de opacidade
+    // Controle de transparência
     const opacitySlider = document.getElementById('opacity');
     opacitySlider.addEventListener('input', (e) => {
       const opacity = parseFloat(e.target.value);
-      historicalLayer.setOpacity(opacity);
+      map1809.setOpacity(opacity);
+      map1844.setOpacity(opacity);
     });
 
     // Adicionando o controle de camadas
@@ -134,7 +137,8 @@
     };
 
     const overlayLayers = {
-      "Mapa Histórico (1844)": historicalLayer
+      "Mapa 1809": map1809,
+      "Mapa 1844": map1844
     };
 
     L.control.layers(baseLayers, overlayLayers, { position: 'topright' }).addTo(map);
