@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mapa do Jardim Botânico - 1844 sobre 2024</title>
 
-  <!-- Estilo do Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 
   <style>
@@ -47,51 +46,53 @@
   <div class="container">
     <div class="narrative top-narrative">
       <h2>História do Jardim Botânico</h2>
-      <p>O Jardim Botânico do Rio de Janeiro foi fundado em 1808 e passou por diversas transformações. O mapa de 1844 representa uma fase importante na evolução do espaço.</p>
+      <p>O Jardim Botânico do Rio de Janeiro foi fundado em 1808. O mapa de 1844 representa uma fase importante na evolução desse espaço.</p>
     </div>
 
     <div class="narrative left-narrative">
       <h2>Mapa Histórico</h2>
-      <p>O mapa de 1844 mostra o layout original do jardim, destacando áreas que não estão mais presentes.</p>
+      <p>O mapa de 1844 mostra a configuração original do Jardim Botânico, com elementos que mudaram ao longo dos anos.</p>
     </div>
 
     <div id="map"></div>
 
     <div class="narrative right-narrative">
       <h2>Mapa Atual</h2>
-      <p>A versão moderna preserva a história, adaptando-se às necessidades contemporâneas.</p>
+      <p>A versão moderna do Jardim Botânico é um espaço para pesquisa científica e preservação da biodiversidade.</p>
     </div>
 
     <div class="narrative bottom-narrative">
-      <h2>Comparação</h2>
-      <p>A sobreposição dos mapas revela as mudanças ao longo dos anos.</p>
+      <h2>Comparação entre os Mapas</h2>
+      <p>Veja a sobreposição dos mapas de 1844 e 2024 para entender as mudanças ao longo do tempo.</p>
     </div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-  <script src="https://iiif-leaflet.s3.amazonaws.com/leaflet-iiif.js"></script>
-
   <script>
-    // Inicializando o mapa com uma visão básica
-    const map = L.map('map').setView([-22.9711, -43.2245], 13);
+    // Inicializando o mapa com foco no Jardim Botânico
+    const map = L.map('map').setView([-22.976, -43.229], 16);
 
-    // Adicionando uma camada de mapa do OpenStreetMap
+    // Adicionando a camada base do OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Tentando adicionar a camada IIIF do mapa histórico
-    const mapa1844 = L.tileLayer.iiif(
-      'https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest.json'
+    // Definindo as coordenadas dos cantos do mapa histórico (1844)
+    const bounds = L.latLngBounds(
+      [-22.979167, -43.231389], // Canto inferior esquerdo
+      [-22.974722, -43.2225] // Canto superior direito
     );
 
-    // Controle de camadas
-    const baseMaps = {
-      "Mapa Base": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
-      "Mapa Histórico (1844)": mapa1844
-    };
+    // Adicionando o mapa histórico como imagem sobreposta
+    const overlay = L.imageOverlay(
+      'https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1844.jpeg',
+      bounds,
+      { opacity: 0.7 }
+    ).addTo(map);
 
-    L.control.layers(baseMaps).addTo(map);
+    // Ajustando o mapa para mostrar a área completa do Jardim Botânico
+    map.fitBounds(bounds);
   </script>
 </body>
 </html>
