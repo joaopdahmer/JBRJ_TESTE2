@@ -1,0 +1,34 @@
+{
+  "@context": "http://iiif.io/api/presentation/2/context.json",
+  "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest_chafariz.json",
+  "@type": "sc:Manifest",
+  "label": "Chafariz das Musas",
+  "sequences": [
+    {
+      "@type": "sc:Sequence",
+      "canvases": [
+        {
+          "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/canvas/chafariz",
+          "@type": "sc:Canvas",
+          "label": "Chafariz das Musas",
+          "height": 1024,
+          "width": 1024,
+          "images": [
+            {
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "on": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/canvas/chafariz",
+              "resource": {
+                "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/chafariz_das_musas.PNG",
+                "@type": "dctypes:Image",
+                "format": "image/png",
+                "height": 1024,
+                "width": 1024
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
