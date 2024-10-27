@@ -19,14 +19,14 @@
               "motivation": "sc:painting",
               "on": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/canvas/1",
               "resource": {
-                "@id": "https://i.imgur.com/Z7wd7Hb.png",
+                "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/chafariz_das_musas.jpg",
                 "@type": "dctypes:Image",
-                "format": "image/png",
+                "format": "image/jpeg",
                 "width": 3000,
                 "height": 3000,
                 "service": {
                   "@context": "http://iiif.io/api/image/2/context.json",
-                  "@id": "https://i.imgur.com/Z7wd7Hb.png",
+                  "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/chafariz_das_musas.jpg",
                   "profile": "http://iiif.io/api/image/2/level2.json"
                 }
               }
