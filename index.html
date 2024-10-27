@@ -46,12 +46,16 @@
     .layer-control {
       position: absolute;
       top: 10px;
-      left: 10px;
+      right: 10px;
       background-color: rgba(255, 255, 255, 0.9);
       padding: 10px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       z-index: 1000;
+    }
+
+    .layer-control h3 {
+      margin: 0 0 10px;
     }
 
     .opacity-control {
@@ -102,44 +106,21 @@
 
   <div class="narrative">
     <h2>Narrativa Histórica: A Evolução do Jardim Botânico do Rio de Janeiro</h2>
-
-    <h3>Fundação e o Mapa de 1809: O Jardim em seus Primeiros Anos</h3>
-    <p>
-      O Jardim Botânico do Rio de Janeiro foi criado em 1808, durante a chegada da corte portuguesa ao Brasil, com o objetivo de aclimatar plantas de outras regiões tropicais do mundo. Originalmente chamado de Real Horto, sua função era essencialmente prática e científica, focando na experimentação com espécies exóticas e na produção agrícola.
-    </p>
-    <p>
-      O mapa de 1809 captura o layout inicial do Jardim, que ainda estava em fase de desenvolvimento. Nesta época, o espaço era utilizado principalmente para cultivar plantas úteis para a economia colonial, como especiarias e árvores de chá. Com limites relativamente simples, o mapa reflete um espaço que combinava função prática e ornamental, com algumas estruturas básicas e alamedas formando a espinha dorsal do futuro parque.
-    </p>
-    <p>
-      Neste período, a principal preocupação era transformar o local em uma referência científica, abrigando espécies vegetais que poderiam beneficiar a colônia. Um dos elementos emblemáticos deste início é o Chafariz das Musas, que aparece como um dos primeiros adornos do jardim, simbolizando a harmonia entre ciência e natureza.
-    </p>
-
-    <h3>O Mapa de 1844: Expansão e Transformação</h3>
-    <p>
-      Com o tempo, o Jardim Botânico passou por significativas mudanças. O mapa de 1844 revela um espaço em plena expansão, com mais áreas ajardinadas e um crescente número de coleções botânicas. Nesta época, o foco do Jardim se deslocou de uma função estritamente econômica para um caráter mais científico e educativo, tornando-se um espaço de estudo da flora brasileira e estrangeira.
-    </p>
-    <p>
-      A presença do Chafariz das Musas, agora mais centralizado e ornado, reflete a maturidade do projeto paisagístico e a preocupação com a estética. O chafariz tornou-se não apenas uma peça ornamental, mas também um ponto de encontro para visitantes e um símbolo de como o Jardim equilibrava ciência e arte.
-    </p>
-
-    <h3>O Jardim Botânico nos Dias Atuais</h3>
-    <p>
-      Hoje, o Jardim Botânico do Rio de Janeiro é reconhecido como um dos principais centros de pesquisa botânica e conservação da biodiversidade na América Latina. A evolução registrada entre os mapas de 1809 e 1844 é um testemunho da transformação do espaço, que se consolidou como um ícone cultural e científico.
-    </p>
-    <p>
-      A Superintendência de Desenvolvimento Urbano (SDU) tem desempenhado um papel crucial na preservação desse legado, garantindo que o Jardim continue sendo uma referência cultural e científica, além de um espaço para lazer e contemplação.
-    </p>
+    <p>O Jardim Botânico do Rio de Janeiro foi criado em 1808...</p>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script>
+    // Inicializando o mapa
     const map = L.map('map').setView([-22.975, -43.225], 15);
 
+    // Camada base do OpenStreetMap
     const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
+    // Definindo os limites e camadas de sobreposição
     const bounds1809 = L.latLngBounds(
       [-23.0113779499199964, -43.2596250916993768],
       [-22.9426905266075174, -43.1790781611284729]
@@ -162,18 +143,39 @@
       { opacity: 0.7 }
     );
 
+    // Adicionando as camadas ao mapa
     map.addLayer(map1809);
     map.addLayer(map1844);
 
+    // Controle de transparência
     document.getElementById('opacity').addEventListener('input', (e) => {
       const opacity = parseFloat(e.target.value);
       map1809.setOpacity(opacity);
       map1844.setOpacity(opacity);
     });
 
+    // Gerenciando camadas com checkboxes
+    document.getElementById('toggle1809').addEventListener('change', (e) => {
+      if (e.target.checked) {
+        map.addLayer(map1809);
+      } else {
+        map.removeLayer(map1809);
+      }
+    });
+
+    document.getElementById('toggle1844').addEventListener('change', (e) => {
+      if (e.target.checked) {
+        map.addLayer(map1844);
+      } else {
+        map.removeLayer(map1844);
+      }
+    });
+
+    // Adicionando o marcador do Chafariz das Musas
     const chafarizMarker = L.marker([-22.96765692, -43.22409306]).addTo(map)
       .bindPopup("Chafariz das Musas");
 
+    // Exibindo a imagem ao clicar no marcador
     chafarizMarker.on('click', () => toggleImageDisplay());
 
     function toggleImageDisplay() {
