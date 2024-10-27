@@ -11,19 +11,24 @@
           "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/canvas/1",
           "@type": "sc:Canvas",
           "label": "Chafariz das Musas",
-          "height": 3000,
           "width": 3000,
+          "height": 3000,
           "images": [
             {
               "@type": "oa:Annotation",
               "motivation": "sc:painting",
               "on": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/canvas/1",
               "resource": {
-                "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/chafariz_das_musas.PNG",
+                "@id": "https://i.imgur.com/Z7wd7Hb.png",
                 "@type": "dctypes:Image",
                 "format": "image/png",
+                "width": 3000,
                 "height": 3000,
-                "width": 3000
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://i.imgur.com/Z7wd7Hb.png",
+                  "profile": "http://iiif.io/api/image/2/level2.json"
+                }
               }
             }
           ]
