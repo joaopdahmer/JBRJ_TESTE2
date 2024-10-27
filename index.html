@@ -12,48 +12,46 @@
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
       height: 100vh;
+      display: flex;
       background-color: #f0f0f0;
+    }
+
+    #sidebar {
+      width: 250px;
+      background-color: white;
+      padding: 15px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
     }
 
     #map {
       flex-grow: 1;
-      width: 100%;
-      position: relative;
     }
 
-    .narrative-top {
-      text-align: center;
-      padding: 10px;
-      background-color: white;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    ul {
+      list-style-type: none;
+      padding: 0;
     }
 
-    .gallery {
+    li {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 10px;
-      background-color: white;
-      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-      max-height: 400px;
-      overflow: auto;
+      justify-content: space-between;
+      margin-bottom: 10px;
     }
 
-    .gallery img {
-      max-width: 100%;
-      height: auto;
-      margin: 0 auto;
-      display: none;
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
     }
 
-    .footer {
-      text-align: center;
-      padding: 10px;
-      background-color: white;
-      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    button:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
     }
 
     .opacity-control {
@@ -67,45 +65,35 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       z-index: 1000;
     }
-
-    #layer-control {
-      position: absolute;
-      top: 50%;
-      left: 10px;
-      transform: translateY(-50%);
-      background-color: rgba(255, 255, 255, 0.8);
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-    }
   </style>
 </head>
 <body>
 
-  <div class="narrative-top">
-    <h2>História do Jardim Botânico</h2>
-    <p>Explore os mapas históricos de 1809 e 1844 para ver as transformações ao longo do tempo.</p>
+  <div id="sidebar">
+    <h3>Camadas</h3>
+    <ul id="layerList">
+      <li>
+        <span>Mapa 1809</span>
+        <div>
+          <button class="up" onclick="moveLayer('map1809', 'up')">↑</button>
+          <button class="down" onclick="moveLayer('map1809', 'down')">↓</button>
+        </div>
+      </li>
+      <li>
+        <span>Mapa 1844</span>
+        <div>
+          <button class="up" onclick="moveLayer('map1844', 'up')">↑</button>
+          <button class="down" onclick="moveLayer('map1844', 'down')">↓</button>
+        </div>
+      </li>
+    </ul>
   </div>
 
   <div id="map"></div>
 
-  <div class="gallery">
-    <img id="chafariz" src="https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/chafariz_das_musas.PNG" alt="Chafariz das Musas">
-  </div>
-
-  <div class="footer">
-    <p>Fonte: Superintendência de Desenvolvimento Urbano (SDU)</p>
-  </div>
-
   <div class="opacity-control">
     <label for="opacity">Transparência: </label>
     <input type="range" id="opacity" min="0" max="1" step="0.1" value="0.7">
-  </div>
-
-  <div id="layer-control">
-    <label for="layerRange">Mover camada:</label>
-    <input type="range" id="layerRange" min="0" max="1" step="1" value="0">
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -140,7 +128,8 @@
       { opacity: 0.7 }
     );
 
-    map.fitBounds(bounds1809);
+    map.addLayer(map1809);
+    map.addLayer(map1844);
 
     const opacitySlider = document.getElementById('opacity');
     opacitySlider.addEventListener('input', (e) => {
@@ -149,26 +138,15 @@
       map1844.setOpacity(opacity);
     });
 
-    const layerRange = document.getElementById('layerRange');
-    layerRange.addEventListener('input', (e) => {
-      const value = parseInt(e.target.value);
-      if (value === 0) {
-        map.addLayer(map1809);
-        map.removeLayer(map1844);
+    function moveLayer(layerId, direction) {
+      const layer = layerId === 'map1809' ? map1809 : map1844;
+      map.removeLayer(layer);
+
+      if (direction === 'up') {
+        map.addLayer(layer);  // Move para frente (acima)
       } else {
-        map.addLayer(map1844);
-        map.removeLayer(map1809);
+        setTimeout(() => map.addLayer(layer), 10);  // Move para trás (abaixo)
       }
-    });
-
-    const chafarizMarker = L.marker([-22.96765692, -43.22409306]).addTo(map)
-      .bindPopup("Chafariz das Musas");
-
-    chafarizMarker.on('click', () => showImage('chafariz'));
-
-    function showImage(imageId) {
-      document.querySelectorAll('.gallery img').forEach(img => img.style.display = 'none');
-      document.getElementById(imageId).style.display = 'block';
     }
   </script>
 
