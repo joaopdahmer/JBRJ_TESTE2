@@ -7,7 +7,6 @@
 
   <!-- Estilo do Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-
   <style>
     body {
       margin: 0;
@@ -39,12 +38,14 @@
       padding: 10px;
       background-color: white;
       box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-      height: 100px;
+      max-height: 400px;
+      overflow: auto;
     }
 
     .gallery img {
-      max-height: 100%;
-      margin: 0 10px;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
       display: none;
     }
 
@@ -60,6 +61,18 @@
       bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+
+    #layer-control {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
       background-color: rgba(255, 255, 255, 0.8);
       padding: 10px;
       border-radius: 8px;
@@ -88,6 +101,11 @@
   <div class="opacity-control">
     <label for="opacity">Transparência: </label>
     <input type="range" id="opacity" min="0" max="1" step="0.1" value="0.7">
+  </div>
+
+  <div id="layer-control">
+    <label for="layerRange">Mover camada:</label>
+    <input type="range" id="layerRange" min="0" max="1" step="1" value="0">
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -131,15 +149,21 @@
       map1844.setOpacity(opacity);
     });
 
-    const baseLayers = { "OpenStreetMap": osmLayer };
-    const overlayLayers = { "Mapa 1809": map1809, "Mapa 1844": map1844 };
-    L.control.layers(baseLayers, overlayLayers, { position: 'topright' }).addTo(map);
+    const layerRange = document.getElementById('layerRange');
+    layerRange.addEventListener('input', (e) => {
+      const value = parseInt(e.target.value);
+      if (value === 0) {
+        map.addLayer(map1809);
+        map.removeLayer(map1844);
+      } else {
+        map.addLayer(map1844);
+        map.removeLayer(map1809);
+      }
+    });
 
-    // Adicionando ponto de destaque para a imagem "Chafariz das Musas"
     const chafarizMarker = L.marker([-22.96765692, -43.22409306]).addTo(map)
       .bindPopup("Chafariz das Musas");
 
-    // Exibir imagem ao clicar no ponto
     chafarizMarker.on('click', () => showImage('chafariz'));
 
     function showImage(imageId) {
