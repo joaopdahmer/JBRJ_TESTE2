@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mapa do Jardim Botânico - 1809 e 1844</title>
 
-  <!-- Estilo do Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <style>
     body {
@@ -13,34 +12,34 @@
       padding: 0;
       font-family: Arial, sans-serif;
       height: 100vh;
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
       background-color: #f0f0f0;
     }
 
-    #content {
-      display: flex;
-      height: 70vh;
-      transition: height 0.5s;
+    #map1, #map2 {
+      width: 100%;
+      height: 100%;
     }
 
-    #map {
-      flex: 1;
-      transition: flex 0.5s;
+    .narrative {
+      grid-row: 2 / 3;
+      grid-column: 1 / 2;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
     }
 
-    #image-container {
-      flex: 0;
-      overflow: hidden;
+    #iiif-container {
+      grid-row: 2 / 3;
+      grid-column: 2 / 3;
+      background-color: #fff;
       display: none;
       align-items: center;
       justify-content: center;
-      background-color: #fff;
-    }
-
-    #image-container img {
-      max-width: 100%;
-      max-height: 100%;
     }
 
     .layer-control {
@@ -53,38 +52,23 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       z-index: 1000;
     }
-
-    .layer-control h3 {
-      margin: 0 0 10px;
-    }
-
-    .opacity-control {
-      position: absolute;
-      bottom: 310px;
-      right: 10px;
-      background-color: rgba(255, 255, 255, 0.8);
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-    }
-
-    .narrative {
-      padding: 20px;
-      background-color: white;
-      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-      overflow-y: auto;
-      max-height: 300px;
-    }
   </style>
 </head>
 <body>
 
-  <div id="content">
-    <div id="map"></div>
-    <div id="image-container">
-      <img id="chafariz-image" src="https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/chafariz_das_musas.PNG" alt="Chafariz das Musas">
-    </div>
+  <div id="map1"></div>
+  <div id="map2"></div>
+
+  <div class="narrative">
+    <h2>Narrativa Histórica: A Evolução do Jardim Botânico do Rio de Janeiro</h2>
+    <p>O Jardim Botânico foi criado em 1808...</p>
+  </div>
+
+  <div id="iiif-container">
+    <iframe 
+      src="https://iiif-viewer.herokuapp.com/?manifest=https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest2.json" 
+      width="100%" height="100%" frameborder="0" allowfullscreen>
+    </iframe>
   </div>
 
   <div class="layer-control">
@@ -99,97 +83,48 @@
     </div>
   </div>
 
-  <div class="opacity-control">
-    <label for="opacity">Transparência:</label>
-    <input type="range" id="opacity" min="0" max="1" step="0.1" value="0.7">
-  </div>
-
-  <div class="narrative">
-    <h2>Narrativa Histórica: A Evolução do Jardim Botânico do Rio de Janeiro</h2>
-    <p>O Jardim Botânico do Rio de Janeiro foi criado em 1808...</p>
-  </div>
-
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script>
-    // Inicializando o mapa
-    const map = L.map('map').setView([-22.975, -43.225], 15);
+    const map1 = L.map('map1').setView([-22.975, -43.225], 15);
+    const map2 = L.map('map2').setView([-22.975, -43.225], 15);
 
-    // Camada base do OpenStreetMap
     const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+    });
 
-    // Definindo os limites e camadas de sobreposição
-    const bounds1809 = L.latLngBounds(
-      [-23.0113779499199964, -43.2596250916993768],
-      [-22.9426905266075174, -43.1790781611284729]
-    );
+    osmLayer.addTo(map1);
+    osmLayer.addTo(map2);
 
     const map1809 = L.imageOverlay(
       'https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1809.png',
-      bounds1809,
-      { opacity: 0.7 }
-    );
-
-    const bounds1844 = L.latLngBounds(
-      [-23.0169534456901026, -43.2705882790006555],
-      [-22.9313869757742950, -43.1775861596917423]
+      [[-23.0113, -43.2596], [-22.9426, -43.1790]]
     );
 
     const map1844 = L.imageOverlay(
       'https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1844.png',
-      bounds1844,
-      { opacity: 0.7 }
+      [[-23.0169, -43.2705], [-22.9313, -43.1775]]
     );
 
-    // Adicionando as camadas ao mapa
-    map.addLayer(map1809);
-    map.addLayer(map1844);
+    map1809.addTo(map1);
+    map1844.addTo(map2);
 
-    // Controle de transparência
-    document.getElementById('opacity').addEventListener('input', (e) => {
-      const opacity = parseFloat(e.target.value);
-      map1809.setOpacity(opacity);
-      map1844.setOpacity(opacity);
-    });
-
-    // Gerenciando camadas com checkboxes
     document.getElementById('toggle1809').addEventListener('change', (e) => {
-      if (e.target.checked) {
-        map.addLayer(map1809);
-      } else {
-        map.removeLayer(map1809);
-      }
+      if (e.target.checked) map1809.addTo(map1);
+      else map1.removeLayer(map1809);
     });
 
     document.getElementById('toggle1844').addEventListener('change', (e) => {
-      if (e.target.checked) {
-        map.addLayer(map1844);
-      } else {
-        map.removeLayer(map1844);
-      }
+      if (e.target.checked) map1844.addTo(map2);
+      else map2.removeLayer(map1844);
     });
 
-    // Adicionando o marcador do Chafariz das Musas
-    const chafarizMarker = L.marker([-22.96765692, -43.22409306]).addTo(map)
+    const chafarizMarker = L.marker([-22.9676, -43.2240]).addTo(map1)
       .bindPopup("Chafariz das Musas");
 
-    // Exibindo a imagem ao clicar no marcador
-    chafarizMarker.on('click', () => toggleImageDisplay());
-
-    function toggleImageDisplay() {
-      const content = document.getElementById('content');
-      const imageContainer = document.getElementById('image-container');
-
-      if (imageContainer.style.display === 'none') {
-        content.style.height = '50vh';
-        imageContainer.style.display = 'flex';
-      } else {
-        content.style.height = '70vh';
-        imageContainer.style.display = 'none';
-      }
-    }
+    chafarizMarker.on('click', () => {
+      document.getElementById('iiif-container').style.display = 'flex';
+    });
   </script>
 
 </body>
