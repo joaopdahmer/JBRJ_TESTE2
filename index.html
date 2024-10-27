@@ -78,8 +78,7 @@
   <div id="map"></div>
 
   <div class="gallery">
-    <img id="image1" src="https://via.placeholder.com/150" alt="Imagem 1">
-    <img id="image2" src="https://via.placeholder.com/150" alt="Imagem 2">
+    <img id="chafariz" src="https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/chafariz_das_musas.PNG" alt="Chafariz das Musas">
   </div>
 
   <div class="footer">
@@ -136,13 +135,12 @@
     const overlayLayers = { "Mapa 1809": map1809, "Mapa 1844": map1844 };
     L.control.layers(baseLayers, overlayLayers, { position: 'topright' }).addTo(map);
 
-    // Adicionar pins com imagens associadas
-    const pin1 = L.marker([-22.95, -43.22]).addTo(map).bindPopup("Imagem 1");
-    const pin2 = L.marker([-22.96, -43.23]).addTo(map).bindPopup("Imagem 2");
+    // Adicionando ponto de destaque para a imagem "Chafariz das Musas"
+    const chafarizMarker = L.marker([-22.96765692, -43.22409306]).addTo(map)
+      .bindPopup("Chafariz das Musas");
 
-    // Função para mostrar imagem correspondente ao pin clicado
-    pin1.on('click', () => showImage('image1'));
-    pin2.on('click', () => showImage('image2'));
+    // Exibir imagem ao clicar no ponto
+    chafarizMarker.on('click', () => showImage('chafariz'));
 
     function showImage(imageId) {
       document.querySelectorAll('.gallery img').forEach(img => img.style.display = 'none');
