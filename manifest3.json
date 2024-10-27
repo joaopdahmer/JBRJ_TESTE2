@@ -19,7 +19,7 @@
               "motivation": "sc:painting",
               "on": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/canvas/1",
               "resource": {
-                "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/chafariz_das_musas.png",
+                "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/chafariz_das_musas.PNG",
                 "@type": "dctypes:Image",
                 "format": "image/png",
                 "height": 3000,
