@@ -14,6 +14,7 @@
       font-family: Arial, sans-serif;
       height: 100vh;
       display: flex;
+      flex-direction: column;
       background-color: #f0f0f0;
     }
 
@@ -27,31 +28,8 @@
 
     #map {
       flex-grow: 1;
-    }
-
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    li {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    button {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 5px 10px;
-      cursor: pointer;
-    }
-
-    button:disabled {
-      background-color: #aaa;
-      cursor: not-allowed;
+      width: 100%;
+      position: relative;
     }
 
     .opacity-control {
@@ -65,31 +43,45 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       z-index: 1000;
     }
+
+    .narrative {
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+      max-height: 300px;
+    }
   </style>
 </head>
 <body>
 
-  <div id="sidebar">
-    <h3>Camadas</h3>
-    <ul id="layerList">
-      <li>
-        <span>Mapa 1809</span>
-        <div>
-          <button class="up" onclick="moveLayer('map1809', 'up')">↑</button>
-          <button class="down" onclick="moveLayer('map1809', 'down')">↓</button>
-        </div>
-      </li>
-      <li>
-        <span>Mapa 1844</span>
-        <div>
-          <button class="up" onclick="moveLayer('map1844', 'up')">↑</button>
-          <button class="down" onclick="moveLayer('map1844', 'down')">↓</button>
-        </div>
-      </li>
-    </ul>
-  </div>
-
   <div id="map"></div>
+
+  <div class="narrative">
+    <h2>Narrativa Histórica</h2>
+    <h3>Fundação e o Mapa de 1809: O Jardim em seus Primeiros Anos</h3>
+    <p>
+      O Jardim Botânico do Rio de Janeiro foi criado em 1808, durante a chegada da corte portuguesa ao Brasil, com o objetivo de aclimatar plantas de outras regiões tropicais do mundo. Originalmente chamado de Real Horto, sua função era essencialmente prática e científica, focando na experimentação com espécies exóticas e na produção agrícola.
+    </p>
+    <p>
+      O mapa de 1809 captura o layout inicial do Jardim, que ainda estava em fase de desenvolvimento. Nesta época, o espaço era utilizado principalmente para cultivar plantas úteis para a economia colonial, como especiarias e árvores de chá. Um dos elementos emblemáticos deste início é o Chafariz das Musas, simbolizando a harmonia entre ciência e natureza.
+    </p>
+
+    <h3>O Mapa de 1844: Expansão e Transformação</h3>
+    <p>
+      O mapa de 1844 revela um espaço em plena expansão, com áreas ajardinadas e um crescente número de coleções botânicas. Nesta época, o foco mudou de uma função econômica para um caráter científico e educativo. Elementos como lagos e estruturas decorativas ganharam destaque, evidenciando a transformação do Jardim em um espaço também voltado para lazer.
+    </p>
+
+    <h3>O Jardim Botânico nos Dias Atuais</h3>
+    <p>
+      Hoje, o Jardim Botânico é um dos principais centros de pesquisa e conservação da biodiversidade na América Latina. A evolução entre os mapas de 1809 e 1844 testemunha a transformação do espaço, consolidando-o como ícone cultural e científico. A sobreposição dos mapas permite visualizar como os limites do espaço foram redefinidos e como os antigos traçados influenciam o layout atual.
+    </p>
+
+    <h3>Reflexão Final</h3>
+    <p>
+      A comparação dos mapas históricos permite refletir sobre o papel da ciência e da cultura na construção da identidade do espaço. Desde sua fundação, o Jardim continua a inspirar visitantes e a preservar a natureza em meio ao crescimento urbano.
+    </p>
+  </div>
 
   <div class="opacity-control">
     <label for="opacity">Transparência: </label>
@@ -97,7 +89,6 @@
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-
   <script>
     const map = L.map('map').setView([-22.975, -43.225], 15);
 
@@ -137,17 +128,6 @@
       map1809.setOpacity(opacity);
       map1844.setOpacity(opacity);
     });
-
-    function moveLayer(layerId, direction) {
-      const layer = layerId === 'map1809' ? map1809 : map1844;
-      map.removeLayer(layer);
-
-      if (direction === 'up') {
-        map.addLayer(layer);  // Move para frente (acima)
-      } else {
-        setTimeout(() => map.addLayer(layer), 10);  // Move para trás (abaixo)
-      }
-    }
   </script>
 
 </body>
