@@ -34,38 +34,9 @@
       z-index: 1000;
     }
 
-    .layer-control h3 {
-      margin-top: 0;
-    }
-
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    li {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    button {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 5px 10px;
-      cursor: pointer;
-    }
-
-    button:disabled {
-      background-color: #aaa;
-      cursor: not-allowed;
-    }
-
     .opacity-control {
       position: absolute;
-      bottom: 10px;
+      bottom: 310px;
       right: 10px;
       background-color: rgba(255, 255, 255, 0.8);
       padding: 10px;
@@ -88,23 +59,15 @@
   <div id="map"></div>
 
   <div class="layer-control">
-    <h3>Camadas</h3>
-    <ul id="layerList">
-      <li>
-        <span>Mapa 1809</span>
-        <div>
-          <button onclick="moveLayer('map1809', 'up')">↑</button>
-          <button onclick="moveLayer('map1809', 'down')">↓</button>
-        </div>
-      </li>
-      <li>
-        <span>Mapa 1844</span>
-        <div>
-          <button onclick="moveLayer('map1844', 'up')">↑</button>
-          <button onclick="moveLayer('map1844', 'down')">↓</button>
-        </div>
-      </li>
-    </ul>
+    <h3>Gerenciar Camadas</h3>
+    <div>
+      <input type="checkbox" id="toggle1809" checked>
+      <label for="toggle1809">Mapa 1809</label>
+    </div>
+    <div>
+      <input type="checkbox" id="toggle1844" checked>
+      <label for="toggle1844">Mapa 1844</label>
+    </div>
   </div>
 
   <div class="opacity-control">
@@ -113,11 +76,28 @@
   </div>
 
   <div class="narrative">
-    <h2>Narrativa Histórica</h2>
+    <h2>Narrativa Histórica: A Evolução do Jardim Botânico do Rio de Janeiro</h2>
+
     <h3>Fundação e o Mapa de 1809: O Jardim em seus Primeiros Anos</h3>
-    <p>O Jardim Botânico do Rio de Janeiro foi criado em 1808...</p>
+    <p>O Jardim Botânico do Rio de Janeiro foi criado em 1808, durante a chegada da corte portuguesa ao Brasil, com o objetivo de aclimatar plantas de outras regiões tropicais do mundo. Originalmente chamado de Real Horto, sua função era essencialmente prática e científica, focando na experimentação com espécies exóticas e na produção agrícola.</p>
+
+    <p>O mapa de 1809 captura o layout inicial do Jardim, que ainda estava em fase de desenvolvimento. Nesta época, o espaço era utilizado principalmente para cultivar plantas úteis para a economia colonial, como especiarias e árvores de chá. Com limites relativamente simples, o mapa reflete um espaço que combinava função prática e ornamental, com algumas estruturas básicas e alamedas formando a espinha dorsal do futuro parque.</p>
+
+    <p>Neste período, a principal preocupação era transformar o local em uma referência científica, abrigando espécies vegetais que poderiam beneficiar a colônia. Um dos elementos emblemáticos deste início é o Chafariz das Musas, que aparece como um dos primeiros adornos do jardim, simbolizando a harmonia entre ciência e natureza.</p>
+
     <h3>O Mapa de 1844: Expansão e Transformação</h3>
-    <p>O mapa de 1844 revela um espaço em plena expansão...</p>
+    <p>Com o tempo, o Jardim Botânico passou por significativas mudanças. O mapa de 1844 revela um espaço em plena expansão, com mais áreas ajardinadas e um crescente número de coleções botânicas. Nesta época, o foco do Jardim se deslocou de uma função estritamente econômica para um caráter mais científico e educativo, tornando-se um espaço de estudo da flora brasileira e estrangeira.</p>
+
+    <p>O mapa também reflete a influência do paisagismo europeu, com alamedas e canteiros simétricos e organizados em estilo formal. Elementos como lagos e estruturas decorativas ganharam destaque, evidenciando a transformação do Jardim em um espaço também voltado para o lazer e o embelezamento urbano.</p>
+
+    <p>A presença do Chafariz das Musas, agora mais centralizado e ornado, reflete a maturidade do projeto paisagístico e a preocupação com a estética. O chafariz tornou-se não apenas uma peça ornamental, mas também um ponto de encontro para visitantes e um símbolo de como o Jardim equilibrava ciência e arte.</p>
+
+    <h3>O Jardim Botânico nos Dias Atuais</h3>
+    <p>Hoje, o Jardim Botânico do Rio de Janeiro é reconhecido como um dos principais centros de pesquisa botânica e conservação da biodiversidade na América Latina. A evolução registrada entre os mapas de 1809 e 1844 é um testemunho da transformação do espaço, que se consolidou como um ícone cultural e científico.</p>
+
+    <p>Ao comparar esses dois mapas, é possível perceber como o Jardim Botânico acompanhou o crescimento urbano do Rio de Janeiro, ao mesmo tempo em que manteve sua missão de preservar a flora e educar a população. A sobreposição dos mapas nos permite visualizar como os limites do espaço foram redefinidos e como os antigos traçados influenciam o layout atual.</p>
+
+    <p>A Superintendência de Desenvolvimento Urbano (SDU) tem desempenhado um papel crucial na preservação desse legado, garantindo que o Jardim continue sendo uma referência cultural e científica, além de um espaço para lazer e contemplação.</p>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -160,16 +140,21 @@
       map1844.setOpacity(opacity);
     });
 
-    function moveLayer(layerId, direction) {
-      const layer = layerId === 'map1809' ? map1809 : map1844;
-      map.removeLayer(layer);
-
-      if (direction === 'up') {
-        map.addLayer(layer); // Move para frente (acima)
+    document.getElementById('toggle1809').addEventListener('change', (e) => {
+      if (e.target.checked) {
+        map.addLayer(map1809);
       } else {
-        setTimeout(() => map.addLayer(layer), 10); // Move para trás (abaixo)
+        map.removeLayer(map1809);
       }
-    }
+    });
+
+    document.getElementById('toggle1844').addEventListener('change', (e) => {
+      if (e.target.checked) {
+        map.addLayer(map1844);
+      } else {
+        map.removeLayer(map1844);
+      }
+    });
   </script>
 
 </body>
