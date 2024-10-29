@@ -36,12 +36,37 @@
     }
 
     #iiif-container {
-      grid-row: 2 / 3;
-      grid-column: 2 / 3;
-      background-color: #fff;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       display: none;
-      align-items: center;
+      background-color: rgba(0, 0, 0, 0.8);
       justify-content: center;
+      align-items: center;
+      z-index: 1001;
+    }
+
+    .iiif-content {
+      width: 50%;
+      height: 50%;
+      position: relative;
+      background-color: #fff;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1002;
     }
 
     .layer-control {
@@ -53,14 +78,6 @@
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       z-index: 1000;
-    }
-
-    .layer-control h3 {
-      margin: 0 0 10px;
-    }
-
-    .layer-control input[type="range"] {
-      width: 100%;
     }
   </style>
 </head>
@@ -77,9 +94,6 @@
     </p>
     <p>
       O mapa de 1809 captura o layout inicial do Jardim, que ainda estava em fase de desenvolvimento. Nesta época, o espaço era utilizado principalmente para cultivar plantas úteis para a economia colonial, como especiarias e árvores de chá. Com limites relativamente simples, o mapa reflete um espaço que combinava função prática e ornamental, com algumas estruturas básicas e alamedas formando a espinha dorsal do futuro parque.
-    </p>
-    <p>
-      Neste período, a principal preocupação era transformar o local em uma referência científica, abrigando espécies vegetais que poderiam beneficiar a colônia. Um dos elementos emblemáticos deste início é o Chafariz das Musas, que aparece como um dos primeiros adornos do jardim, simbolizando a harmonia entre ciência e natureza.
     </p>
 
     <h3>O Mapa de 1844: Expansão e Transformação</h3>
@@ -100,10 +114,13 @@
   </div>
 
   <div id="iiif-container">
-    <iframe 
-      src="https://universalviewer.io/uv.html?manifest=https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest3.json" 
-      width="100%" height="100%" frameborder="0" allowfullscreen>
-    </iframe>
+    <div class="iiif-content">
+      <button class="close-button" onclick="toggleImageDisplay()">Minimizar</button>
+      <iframe 
+        src="https://universalviewer.io/uv.html?manifest=https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest3.json" 
+        width="100%" height="100%" frameborder="0" allowfullscreen>
+      </iframe>
+    </div>
   </div>
 
   <div class="layer-control">
@@ -164,9 +181,9 @@
       .bindPopup("Chafariz das Musas");
 
     chafarizMarker.on('click', () => {
-      document.getElementById('iiif-container').style.display = 'flex';
+      toggleImageDisplay();
     });
-  </script>
 
-</body>
-</html>
+    function toggleImageDisplay() {
+      const iiifContainer = document.getElementById('iiif-container');
+      iiifContainer.style.display = iiifContainer.style.display === 'flex' ? 'none' : 'flex
