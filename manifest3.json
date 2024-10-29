@@ -8,7 +8,7 @@
       "@type": "sc:Sequence",
       "canvases": [
         {
-          "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/canvas/1",
+          "@id": "https://free.iiifhosting.com/iiif/2d067ca761df0c4680d3b3c7331f31d30536e39c8a028fc1141f7ccaec066e4f/canvas",
           "@type": "sc:Canvas",
           "label": "Chafariz das Musas",
           "width": 3000,
@@ -17,16 +17,16 @@
             {
               "@type": "oa:Annotation",
               "motivation": "sc:painting",
-              "on": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/canvas/1",
+              "on": "https://free.iiifhosting.com/iiif/2d067ca761df0c4680d3b3c7331f31d30536e39c8a028fc1141f7ccaec066e4f/canvas",
               "resource": {
-                "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/chafariz_das_musas.jpg",
+                "@id": "https://free.iiifhosting.com/iiif/2d067ca761df0c4680d3b3c7331f31d30536e39c8a028fc1141f7ccaec066e4f/full/full/0/default.jpg",
                 "@type": "dctypes:Image",
                 "format": "image/jpeg",
                 "width": 3000,
                 "height": 3000,
                 "service": {
                   "@context": "http://iiif.io/api/image/2/context.json",
-                  "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/chafariz_das_musas.jpg",
+                  "@id": "https://free.iiifhosting.com/iiif/2d067ca761df0c4680d3b3c7331f31d30536e39c8a028fc1141f7ccaec066e4f",
                   "profile": "http://iiif.io/api/image/2/level2.json"
                 }
               }
