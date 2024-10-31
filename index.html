@@ -123,7 +123,7 @@
     <iframe id="image-frame" allowfullscreen></iframe>
   </div>
 
-  <div id="narrative">
+<div id="narrative">
     <h2>Narrativa Histórica: A Evolução do Jardim Botânico do Rio de Janeiro</h2>
 
     <h3>Fundação e o Mapa de 1809: O Jardim em seus Primeiros Anos</h3>
@@ -216,12 +216,10 @@
     const piloesMarker = L.marker([-22.9683360, -43.2268819]).addTo(map)
       .bindPopup("Casa de Pilões");
 
-    // Código atualizado para o marcador da Casa de Pilões
-piloesMarker.on('click', () => {
-  document.getElementById('image-frame').src = "https://universalviewer.io/uv.html?manifest=https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest5.json";
-  toggleImageDisplay();
-});
-
+    piloesMarker.on('click', () => {
+      document.getElementById('image-frame').src = "https://universalviewer.io/uv.html?manifest=https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest5.json";
+      toggleImageDisplay();
+    });
 
     function toggleImageDisplay() {
       const imageContainer = document.getElementById('image-container');
