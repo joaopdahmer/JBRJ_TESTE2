@@ -1,6 +1,6 @@
 {
   "@context": "http://iiif.io/api/presentation/2/context.json",
-  "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest3.json",
+  "@id": "https://example.com/manifest3.json",
   "@type": "sc:Manifest",
   "label": "Chafariz das Musas",
   "sequences": [
@@ -8,25 +8,51 @@
       "@type": "sc:Sequence",
       "canvases": [
         {
-          "@id": "https://free.iiifhosting.com/iiif/2d067ca761df0c4680d3b3c7331f31d30536e39c8a028fc1141f7ccaec066e4f/canvas",
+          "@id": "https://example.com/canvas/1",
           "@type": "sc:Canvas",
-          "label": "Chafariz das Musas",
-          "width": 3000,
-          "height": 3000,
+          "label": "Imagem 1 do Chafariz",
+          "width": 2000,
+          "height": 1500,
           "images": [
             {
               "@type": "oa:Annotation",
               "motivation": "sc:painting",
-              "on": "https://free.iiifhosting.com/iiif/2d067ca761df0c4680d3b3c7331f31d30536e39c8a028fc1141f7ccaec066e4f/canvas",
+              "on": "https://example.com/canvas/1",
               "resource": {
                 "@id": "https://free.iiifhosting.com/iiif/2d067ca761df0c4680d3b3c7331f31d30536e39c8a028fc1141f7ccaec066e4f/full/full/0/default.jpg",
                 "@type": "dctypes:Image",
                 "format": "image/jpeg",
-                "width": 3000,
-                "height": 3000,
+                "width": 2000,
+                "height": 1500,
                 "service": {
                   "@context": "http://iiif.io/api/image/2/context.json",
                   "@id": "https://free.iiifhosting.com/iiif/2d067ca761df0c4680d3b3c7331f31d30536e39c8a028fc1141f7ccaec066e4f",
+                  "profile": "http://iiif.io/api/image/2/level2.json"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "@id": "https://example.com/canvas/2",
+          "@type": "sc:Canvas",
+          "label": "Imagem 2 do Chafariz",
+          "width": 2000,
+          "height": 1500,
+          "images": [
+            {
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "on": "https://example.com/canvas/2",
+              "resource": {
+                "@id": "https://free.iiifhosting.com/iiif/f3fdd50b93694c922d739704389da6b755de24d0bddfcc418f89cf6a4c40b40f/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2000,
+                "height": 1500,
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://free.iiifhosting.com/iiif/f3fdd50b93694c922d739704389da6b755de24d0bddfcc418f89cf6a4c40b40f",
                   "profile": "http://iiif.io/api/image/2/level2.json"
                 }
               }
