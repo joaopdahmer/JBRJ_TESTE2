@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="viewport" content="width=device-width, initial-scale=1.0">
@@ -123,6 +123,7 @@
     <iframe id="image-frame" allowfullscreen></iframe>
   </div>
 
+  
   <div id="narrative">
     <h2>Narrativa Histórica: A Evolução do Jardim Botânico do Rio de Janeiro</h2>
 
@@ -153,6 +154,7 @@
       A Superintendência de Desenvolvimento Urbano (SDU) tem desempenhado um papel crucial na preservação desse legado, garantindo que o Jardim continue sendo uma referência cultural e científica, além de um espaço para lazer e contemplação.
     </p>
   </div>
+
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script>
@@ -221,12 +223,13 @@
       toggleImageDisplay();
     });
 
-    // Novo marcador para a Entrada Principal
+    // Marcador da Entrada Principal
     const entradaPrincipalMarker = L.marker([-22.96925637, -43.22192888]).addTo(map)
       .bindPopup("Entrada Principal");
 
     entradaPrincipalMarker.on('click', () => {
-      alert("Este é o marcador da Entrada Principal."); // Personalize conforme necessário
+      document.getElementById('image-frame').src = "https://universalviewer.io/uv.html?manifest=https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest_entradaprincipal.json";
+      toggleImageDisplay();
     });
 
     function toggleImageDisplay() {
@@ -235,20 +238,13 @@
     }
 
     function toggleLayerControl() {
-      const layerControl = document.getElementById('layer-control');
-      const button = document.querySelector('.toggle-control-button');
+      const layerControl = document.getElementById('layer-control')
+            const button = document.querySelector('.toggle-control-button');
 
       if (layerControl.style.display === 'none') {
         layerControl.style.display = 'block';
         button.textContent = 'Minimizar Camadas';
-      } else {         layerControl.style.display = 'none';
-        button.textContent = 'Mostrar Camadas';
-      }
-    }
-  </script>
-
-</body>
-</html>
+      } else {
         layerControl.style.display = 'none';
         button.textContent = 'Mostrar Camadas';
       }
@@ -257,9 +253,4 @@
 
 </body>
 </html>
- 
-    }
-  </script>
 
-</body>
-</html>
