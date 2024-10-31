@@ -203,7 +203,16 @@
       toggleImageDisplay();
     });
 
-    // Novo marcador com imagem do manifest5.json (Casa de Pilões)
+    // Marcador do Busto Frei Leandro
+    const bustoMarker = L.marker([-22.96851003, -43.22468785]).addTo(map)
+      .bindPopup("Busto Frei Leandro");
+
+    bustoMarker.on('click', () => {
+      document.getElementById('image-frame').src = "https://universalviewer.io/uv.html?manifest=https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest4.json";
+      toggleImageDisplay();
+    });
+
+    // Marcador da Casa de Pilões
     const piloesMarker = L.marker([-22.9683360, -43.2268819]).addTo(map)
       .bindPopup("Casa de Pilões");
 
