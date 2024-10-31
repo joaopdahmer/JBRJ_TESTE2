@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <meta charset="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mapa do Jardim Botânico - 1809 e 1844</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -123,7 +123,7 @@
     <iframe id="image-frame" allowfullscreen></iframe>
   </div>
 
-<div id="narrative">
+  <div id="narrative">
     <h2>Narrativa Histórica: A Evolução do Jardim Botânico do Rio de Janeiro</h2>
 
     <h3>Fundação e o Mapa de 1809: O Jardim em seus Primeiros Anos</h3>
@@ -203,12 +203,12 @@
       toggleImageDisplay();
     });
 
-    // Novo marcador com imagem do manifesto4.json
-    const newMarker = L.marker([-22.96851003, -43.22468785]).addTo(map)
-      .bindPopup("Imagem do Manifesto 4");
+    // Novo marcador com imagem do manifest4.json
+    const bustoMarker = L.marker([-22.96851003, -43.22468785]).addTo(map)
+      .bindPopup("Busto Frei Leandro");
 
-    newMarker.on('click', () => {
-      document.getElementById('image-frame').src = "https://universalviewer.io/uv.html?manifest=https://free.iiifhosting.com/iiif/e6683fc4eea953c6a805647a8df06a336a02a74e1b01a87110d3037ee93548b5/manifest";
+    bustoMarker.on('click', () => {
+      document.getElementById('image-frame').src = "https://universalviewer.io/uv.html?manifest=https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest4.json";
       toggleImageDisplay();
     });
 
