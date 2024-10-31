@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="viewport" content="width=device-width, initial-scale=1.0">
@@ -123,7 +123,7 @@
     <iframe id="image-frame" allowfullscreen></iframe>
   </div>
 
-   <div id="narrative">
+    <div id="narrative">
     <h2>Narrativa Histórica: A Evolução do Jardim Botânico do Rio de Janeiro</h2>
 
     <h3>Fundação e o Mapa de 1809: O Jardim em seus Primeiros Anos</h3>
@@ -153,6 +153,7 @@
       A Superintendência de Desenvolvimento Urbano (SDU) tem desempenhado um papel crucial na preservação desse legado, garantindo que o Jardim continue sendo uma referência cultural e científica, além de um espaço para lazer e contemplação.
     </p>
   </div>
+
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script>
     const map = L.map('map').setView([-22.975, -43.225], 15);
@@ -177,16 +178,24 @@
     map.addLayer(map1809);
     map.addLayer(map1844);
 
-    // Criando o ícone de bola cinza
-    const grayCircleIcon = L.icon({
-      iconUrl: 'https://via.placeholder.com/15/808080/808080.png', // URL de um círculo cinza
-      iconSize: [15, 15],
-      iconAnchor: [7.5, 7.5],
-      popupAnchor: [0, -7.5]
+    document.getElementById('toggle1809').addEventListener('change', (e) => {
+      e.target.checked ? map.addLayer(map1809) : map.removeLayer(map1809);
     });
 
-    // Aplicando o ícone aos marcadores
-    const chafarizMarker = L.marker([-22.9676, -43.2240], { icon: grayCircleIcon }).addTo(map)
+    document.getElementById('toggle1844').addEventListener('change', (e) => {
+      e.target.checked ? map.addLayer(map1844) : map.removeLayer(map1844);
+    });
+
+    document.getElementById('opacity1809').addEventListener('input', (e) => {
+      map1809.setOpacity(parseFloat(e.target.value));
+    });
+
+    document.getElementById('opacity1844').addEventListener('input', (e) => {
+      map1844.setOpacity(parseFloat(e.target.value));
+    });
+
+    // Marcador do Chafariz das Musas
+    const chafarizMarker = L.marker([-22.9676, -43.2240]).addTo(map)
       .bindPopup("Chafariz das Musas");
 
     chafarizMarker.on('click', () => {
@@ -194,7 +203,8 @@
       toggleImageDisplay();
     });
 
-    const bustoMarker = L.marker([-22.96851003, -43.22468785], { icon: grayCircleIcon }).addTo(map)
+    // Marcador do Busto Frei Leandro
+    const bustoMarker = L.marker([-22.96851003, -43.22468785]).addTo(map)
       .bindPopup("Busto Frei Leandro");
 
     bustoMarker.on('click', () => {
@@ -202,7 +212,8 @@
       toggleImageDisplay();
     });
 
-    const piloesMarker = L.marker([-22.9683360, -43.2268819], { icon: grayCircleIcon }).addTo(map)
+    // Marcador da Casa de Pilões
+    const piloesMarker = L.marker([-22.9683360, -43.2268819]).addTo(map)
       .bindPopup("Casa de Pilões");
 
     piloesMarker.on('click', () => {
@@ -210,7 +221,8 @@
       toggleImageDisplay();
     });
 
-    const entradaPrincipalMarker = L.marker([-22.96925637, -43.22192888], { icon: grayCircleIcon }).addTo(map)
+    // Marcador da Entrada Principal
+    const entradaPrincipalMarker = L.marker([-22.96925637, -43.22192888]).addTo(map)
       .bindPopup("Entrada Principal");
 
     entradaPrincipalMarker.on('click', () => {
@@ -224,18 +236,5 @@
     }
 
     function toggleLayerControl() {
-      const layerControl = document.getElementById('layer-control');
-      const button = document.querySelector('.toggle-control-button');
+      const layerControl = document.getElementById('layer-control
 
-      if (layerControl.style.display === 'none') {
-        layerControl.style.display = 'block';
-        button.textContent = 'Minimizar Camadas';
-      } else {
-        layerControl.style.display = 'none';
-        button.textContent = 'Mostrar Camadas';
-      }
-    }
-  </script>
-
-</body>
-</html>
