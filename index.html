@@ -203,12 +203,12 @@
       toggleImageDisplay();
     });
 
-    // Novo marcador com imagem do manifest4.json
-    const bustoMarker = L.marker([-22.96851003, -43.22468785]).addTo(map)
-      .bindPopup("Busto Frei Leandro");
+    // Novo marcador com imagem do manifest5.json (Casa de Pilões)
+    const piloesMarker = L.marker([-22.9683360, -43.2268819]).addTo(map)
+      .bindPopup("Casa de Pilões");
 
-    bustoMarker.on('click', () => {
-      document.getElementById('image-frame').src = "https://universalviewer.io/uv.html?manifest=https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest4.json";
+    piloesMarker.on('click', () => {
+      document.getElementById('image-frame').src = "https://universalviewer.io/uv.html?manifest=http://free.iiifhosting.com/iiif/f7a49e755322275bcfce7d1bbdd752d837e83867be818ac3f36efc27edfde2d5/manifest";
       toggleImageDisplay();
     });
 
