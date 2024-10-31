@@ -1,0 +1,39 @@
+{
+  "@context": "http://iiif.io/api/presentation/2/context.json",
+  "@id": "http://free.iiifhosting.com/iiif/f7a49e755322275bcfce7d1bbdd752d837e83867be818ac3f36efc27edfde2d5/manifest",
+  "@type": "sc:Manifest",
+  "label": "Casa de Pilões",
+  "sequences": [
+    {
+      "@type": "sc:Sequence",
+      "canvases": [
+        {
+          "@id": "http://free.iiifhosting.com/iiif/f7a49e755322275bcfce7d1bbdd752d837e83867be818ac3f36efc27edfde2d5/canvas/1",
+          "@type": "sc:Canvas",
+          "label": "Casa de Pilões",
+          "width": 2000,
+          "height": 1500,
+          "images": [
+            {
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "on": "http://free.iiifhosting.com/iiif/f7a49e755322275bcfce7d1bbdd752d837e83867be818ac3f36efc27edfde2d5/canvas/1",
+              "resource": {
+                "@id": "http://free.iiifhosting.com/iiif/f7a49e755322275bcfce7d1bbdd752d837e83867be818ac3f36efc27edfde2d5/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2000,
+                "height": 1500,
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "http://free.iiifhosting.com/iiif/f7a49e755322275bcfce7d1bbdd752d837e83867be818ac3f36efc27edfde2d5",
+                  "profile": "http://iiif.io/api/image/2/level2.json"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
