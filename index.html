@@ -221,6 +221,14 @@
       toggleImageDisplay();
     });
 
+    // Novo marcador para a Entrada Principal
+    const entradaPrincipalMarker = L.marker([-22.96925637, -43.22192888]).addTo(map)
+      .bindPopup("Entrada Principal");
+
+    entradaPrincipalMarker.on('click', () => {
+      alert("Este é o marcador da Entrada Principal."); // Personalize conforme necessário
+    });
+
     function toggleImageDisplay() {
       const imageContainer = document.getElementById('image-container');
       imageContainer.style.display = imageContainer.style.display === 'none' ? 'block' : 'none';
@@ -233,10 +241,23 @@
       if (layerControl.style.display === 'none') {
         layerControl.style.display = 'block';
         button.textContent = 'Minimizar Camadas';
-      } else {
+      } else {         layerControl.style.display = 'none';
+        button.textContent = 'Mostrar Camadas';
+      }
+    }
+  </script>
+
+</body>
+</html>
         layerControl.style.display = 'none';
         button.textContent = 'Mostrar Camadas';
       }
+    }
+  </script>
+
+</body>
+</html>
+ 
     }
   </script>
 
