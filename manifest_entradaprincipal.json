@@ -1,0 +1,39 @@
+{
+  "@context": "http://iiif.io/api/presentation/2/context.json",
+  "@id": "https://example.com/manifest_entradaprincipal.json",
+  "@type": "sc:Manifest",
+  "label": "Entrada Principal",
+  "sequences": [
+    {
+      "@type": "sc:Sequence",
+      "canvases": [
+        {
+          "@id": "https://example.com/canvas/1",
+          "@type": "sc:Canvas",
+          "label": "Imagem da Entrada Principal",
+          "width": 2000,
+          "height": 1500,
+          "images": [
+            {
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "on": "https://example.com/canvas/1",
+              "resource": {
+                "@id": "https://free.iiifhosting.com/iiif/a028436a5b7f2fa204faaecf0d844b7ca30ad6034cb358792c68ed2bc96a1a5f/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2000,
+                "height": 1500,
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://free.iiifhosting.com/iiif/a028436a5b7f2fa204faaecf0d844b7ca30ad6034cb358792c68ed2bc96a1a5f",
+                  "profile": "http://iiif.io/api/image/2/level2.json"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
