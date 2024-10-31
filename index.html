@@ -120,13 +120,10 @@
 
   <div id="image-container">
     <button class="close-button" onclick="toggleImageDisplay()">Fechar</button>
-    <iframe 
-      src="https://universalviewer.io/uv.html?manifest=https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest3.json" 
-      allowfullscreen>
-    </iframe>
+    <iframe id="image-frame" allowfullscreen></iframe>
   </div>
 
-  <div id="narrative">
+<div id="narrative">
     <h2>Narrativa Histórica: A Evolução do Jardim Botânico do Rio de Janeiro</h2>
 
     <h3>Fundação e o Mapa de 1809: O Jardim em seus Primeiros Anos</h3>
@@ -197,10 +194,21 @@
       map1844.setOpacity(parseFloat(e.target.value));
     });
 
+    // Marcador do Chafariz das Musas
     const chafarizMarker = L.marker([-22.9676, -43.2240]).addTo(map)
       .bindPopup("Chafariz das Musas");
 
     chafarizMarker.on('click', () => {
+      document.getElementById('image-frame').src = "https://universalviewer.io/uv.html?manifest=https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest3.json";
+      toggleImageDisplay();
+    });
+
+    // Novo marcador com imagem do manifesto4.json
+    const newMarker = L.marker([-22.96851003, -43.22468785]).addTo(map)
+      .bindPopup("Imagem do Manifesto 4");
+
+    newMarker.on('click', () => {
+      document.getElementById('image-frame').src = "https://universalviewer.io/uv.html?manifest=https://free.iiifhosting.com/iiif/e6683fc4eea953c6a805647a8df06a336a02a74e1b01a87110d3037ee93548b5/manifest";
       toggleImageDisplay();
     });
 
