@@ -19,7 +19,7 @@
               "motivation": "sc:painting",
               "on": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/canvas/aqueduto",
               "resource": {
-                "@id": "https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/qcYgGJxA6kgqJE9?file=/&fileId=17933605&x=1926&y=917&a=true&etag=b91a9e9aad5dbb42b02e340bdf49c29d",
+                "@id": "https://cloud.jbrj.gov.br/s/qcYgGJxA6kgqJE9/download/aqueduto.jpg",
                 "@type": "dctypes:Image",
                 "format": "image/jpeg",
                 "width": 1926,
