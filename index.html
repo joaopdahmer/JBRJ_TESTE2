@@ -34,31 +34,6 @@
       height: 100%;
     }
 
-    .layer-control {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      transition: all 0.5s;
-    }
-
-    .toggle-control-button {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: rgba(255, 255, 255, 0.8);
-      border: none;
-      padding: 5px 10px;
-      cursor: pointer;
-      border-radius: 4px;
-      z-index: 1001;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    }
-
     #narrative {
       grid-column: 1 / 2;
       grid-row: 2 / 3;
@@ -102,20 +77,6 @@
 
   <div id="map-container">
     <div id="map"></div>
-    <button class="toggle-control-button" onclick="toggleLayerControl()">Minimizar Camadas</button>
-    <div class="layer-control" id="layer-control">
-      <h3>Gerenciar Camadas</h3>
-      <div>
-        <input type="checkbox" id="toggle1809" checked>
-        <label for="toggle1809">Mapa 1809</label>
-        <input type="range" id="opacity1809" min="0" max="1" step="0.1" value="0.7">
-      </div>
-      <div>
-        <input type="checkbox" id="toggle1844" checked>
-        <label for="toggle1844">Mapa 1844</label>
-        <input type="range" id="opacity1844" min="0" max="1" step="0.1" value="0.7">
-      </div>
-    </div>
   </div>
 
   <div id="image-container">
@@ -123,7 +84,7 @@
     <iframe id="image-frame" allowfullscreen></iframe>
   </div>
 
-    <div id="narrative">
+  <div id="narrative">
     <h2>Narrativa Histórica: A Evolução do Jardim Botânico do Rio de Janeiro</h2>
 
     <h3>Fundação e o Mapa de 1809: O Jardim em seus Primeiros Anos</h3>
@@ -164,13 +125,13 @@
     }).addTo(map);
 
     const map1809 = L.imageOverlay(
-      'https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1809.png',
+      'https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/mapa_1809.png',
       [[-23.0113, -43.2596], [-22.9426, -43.1790]],
       { opacity: 0.7 }
     );
 
     const map1844 = L.imageOverlay(
-      'https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1844.png',
+      'https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/mapa_1844.png',
       [[-23.0169, -43.2705], [-22.9313, -43.1775]],
       { opacity: 0.7 }
     );
@@ -178,78 +139,54 @@
     map.addLayer(map1809);
     map.addLayer(map1844);
 
-    document.getElementById('toggle1809').addEventListener('change', (e) => {
-      e.target.checked ? map.addLayer(map1809) : map.removeLayer(map1809);
+    // Criando o ícone de bola cinza
+    const grayCircleIcon = L.icon({
+      iconUrl: 'https://via.placeholder.com/15/808080/808080.png', // URL de um círculo cinza
+      iconSize: [15, 15],
+      iconAnchor: [7.5, 7.5],
+      popupAnchor: [0, -7.5]
     });
 
-    document.getElementById('toggle1844').addEventListener('change', (e) => {
-      e.target.checked ? map.addLayer(map1844) : map.removeLayer(map1844);
-    });
+    // Função para abrir o visualizador Mirador no iframe
+    function openMirador(manifestUrl) {
+      document.getElementById('image-frame').src = `https://projectmirador.org/embed/?iiif-content=${manifestUrl}`;
+      toggleImageDisplay();
+    }
 
-    document.getElementById('opacity1809').addEventListener('input', (e) => {
-      map1809.setOpacity(parseFloat(e.target.value));
-    });
-
-    document.getElementById('opacity1844').addEventListener('input', (e) => {
-      map1844.setOpacity(parseFloat(e.target.value));
-    });
-
-    // Marcador do Chafariz das Musas
-    const chafarizMarker = L.marker([-22.9676, -43.2240]).addTo(map)
+    // Aplicando o ícone aos marcadores e associando os manifests
+    const chafarizMarker = L.marker([-22.9676, -43.2240], { icon: grayCircleIcon }).addTo(map)
       .bindPopup("Chafariz das Musas");
 
     chafarizMarker.on('click', () => {
-      document.getElementById('image-frame').src = "https://universalviewer.io/uv.html?manifest=https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json";
-      toggleImageDisplay();
+      openMirador("https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json");
     });
 
-    // Marcador do Busto Frei Leandro
-    const bustoMarker = L.marker([-22.96851003, -43.22468785]).addTo(map)
+    const bustoMarker = L.marker([-22.96851003, -43.22468785], { icon: grayCircleIcon }).addTo(map)
       .bindPopup("Busto Frei Leandro");
 
     bustoMarker.on('click', () => {
-      document.getElementById('image-frame').src = "https://universalviewer.io/uv.html?manifest=https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest_freileandro.json";
-      toggleImageDisplay();
+      openMirador("https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json");
     });
 
-    // Marcador da Casa de Pilões
-    const piloesMarker = L.marker([-22.9683360, -43.2268819]).addTo(map)
+    const piloesMarker = L.marker([-22.9683360, -43.2268819], { icon: grayCircleIcon }).addTo(map)
       .bindPopup("Casa de Pilões");
 
     piloesMarker.on('click', () => {
-      document.getElementById('image-frame').src = "https://universalviewer.io/uv.html?manifest=https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest_casadepiloes.json";
-      toggleImageDisplay();
+      openMirador("https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_casadepiloes.json");
     });
 
-    // Marcador da Entrada Principal
-    const entradaPrincipalMarker = L.marker([-22.96925637, -43.22192888]).addTo(map)
+    const entradaPrincipalMarker = L.marker([-22.96925637, -43.22192888], { icon: grayCircleIcon }).addTo(map)
       .bindPopup("Entrada Principal");
 
     entradaPrincipalMarker.on('click', () => {
-      document.getElementById('image-frame').src = "https://universalviewer.io/uv.html?manifest=https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest_entradaprincipal.json";
-      toggleImageDisplay();
+      openMirador("https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json");
     });
 
     function toggleImageDisplay() {
       const imageContainer = document.getElementById('image-container');
       imageContainer.style.display = imageContainer.style.display === 'none' ? 'block' : 'none';
     }
-
-    function toggleLayerControl() {
-      const layerControl = document.getElementById('layer-control')
-            const button = document.querySelector('.toggle-control-button');
-
-      if (layerControl.style.display === 'none') {
-        layerControl.style.display = 'block';
-        button.textContent = 'Minimizar Camadas';
-      } else {
-        layerControl.style.display = 'none';
-        button.textContent = 'Mostrar Camadas';
-      }
-    }
   </script>
 
 </body>
 </html>
-
-
