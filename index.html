@@ -203,6 +203,13 @@
       openMirador("https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json");
     });
 
+    // Novo marcador para o Aqueduto
+    const aquedutoMarker = L.marker([-22.96880231, -43.23052051], { icon: gpsPinIcon }).addTo(map)
+      .bindPopup("Aqueduto");
+       aquedutoMarker.on('click', () => {
+      openMirador("https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_aqueduto.json");
+    });
+
     function toggleImageDisplay() {
       const imageContainer = document.getElementById('image-container');
       imageContainer.style.display = imageContainer.style.display === 'none' ? 'block' : 'none';
@@ -212,7 +219,7 @@
       const layerControl = document.getElementById('layer-control');
       const button = document.querySelector('.toggle-control-button');
 
-            if (layerControl.style.display === 'none') {
+      if (layerControl.style.display === 'none') {
         layerControl.style.display = 'block';
         button.textContent = 'Minimizar Camadas';
       } else {
@@ -224,4 +231,3 @@
 
 </body>
 </html>
-
