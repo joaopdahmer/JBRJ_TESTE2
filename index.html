@@ -166,41 +166,27 @@
       map1844.setOpacity(parseFloat(e.target.value));
     });
 
-    // Criando o ícone de bola cinza
-    const grayCircleIcon = L.icon({
-      iconUrl: 'https://via.placeholder.com/15/808080/808080.png', // URL de um círculo cinza
-      iconSize: [15, 15],
-      iconAnchor: [7.5, 7.5],
-      popupAnchor: [0, -7.5]
-    });
+   // Criando o ícone de bola cinza com uma URL de imagem válida
+const grayCircleIcon = L.icon({
+  iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/8/84/Simple_gray_circle.png', // Substitua por um link válido
+  iconSize: [15, 15], // Tamanho do ícone
+  iconAnchor: [7.5, 7.5], // Ponto de ancoragem (centro do ícone)
+  popupAnchor: [0, -7.5] // Posição da popup em relação ao ícone
+});
 
-    function openMirador(manifestUrl) {
-      document.getElementById('image-frame').src = `https://projectmirador.org/embed/?iiif-content=${manifestUrl}`;
-      toggleImageDisplay();
-    }
+// Adicionando os pins com o ícone atualizado
+const chafarizMarker = L.marker([-22.9676, -43.2240], { icon: grayCircleIcon }).addTo(map)
+  .bindPopup("Chafariz das Musas");
 
-    const chafarizMarker = L.marker([-22.9676, -43.2240], { icon: grayCircleIcon }).addTo(map)
-      .bindPopup("Chafariz das Musas");
-    chafarizMarker.on('click', () => {
-      openMirador("https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json");
-    });
+const bustoMarker = L.marker([-22.96851003, -43.22468785], { icon: grayCircleIcon }).addTo(map)
+  .bindPopup("Busto Frei Leandro");
 
-    const bustoMarker = L.marker([-22.96851003, -43.22468785], { icon: grayCircleIcon }).addTo(map)
-      .bindPopup("Busto Frei Leandro");
-    bustoMarker.on('click', () => {
-      openMirador("https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json");
-    });
+const piloesMarker = L.marker([-22.9683360, -43.2268819], { icon: grayCircleIcon }).addTo(map)
+  .bindPopup("Casa de Pilões");
 
-    const piloesMarker = L.marker([-22.9683360, -43.2268819], { icon: grayCircleIcon }).addTo(map)
-      .bindPopup("Casa de Pilões");
-    piloesMarker.on('click', () => {
-      openMirador("https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_casadepiloes.json");
-    });
+const entradaPrincipalMarker = L.marker([-22.96925637, -43.22192888], { icon: grayCircleIcon }).addTo(map)
+  .bindPopup("Entrada Principal");
 
-    const entradaPrincipalMarker = L.marker([-22.96925637, -43.22192888], { icon: grayCircleIcon }).addTo(map)
-      .bindPopup("Entrada Principal");
-    entradaPrincipalMarker.on('click', () => {
-      openMirador("https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json");
     });
 
     function toggleImageDisplay() {
