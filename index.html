@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
-  <title>Mapa do Jardim Botânico - 1809 e 1844</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mapa do Jardim Botânico - Visualização IIIF</title>
 
@@ -13,19 +11,15 @@
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      height: 100vh;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: 2fr 1fr;
       grid-template-rows: 1fr 1fr;
       height: 100vh;
       gap: 5px;
       background-color: #f0f0f0;
-      transition: all 0.5s;
     }
 
     #map-container {
-      grid-column: 1 / 3;
       grid-column: 1 / 2;
       grid-row: 1 / 2;
       position: relative;
@@ -35,26 +29,59 @@
     }
 
     #map {
-@@ -46,13 +46,12 @@
+      width: 100%;
+      height: 100%;
     }
 
-    #narrative {
-      grid-column: 1 / 3;
-      grid-column: 1 / 2;
-      grid-row: 2 / 3;
-      background-color: white;
-      overflow-y: auto;
-      padding: 20px;
-      overflow-y: auto;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    .layer-control {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
       transition: all 0.5s;
     }
 
+    #narrative {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      background-color: white;
+      padding: 20px;
+      overflow-y: auto;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    }
+
     #image-container {
-@@ -82,125 +81,147 @@
+      grid-column: 2 / 3;
+      grid-row: 1 / 3;
+      display: none;
+      background-color: white;
+      box-shadow: -10px 0 15px rgba(0, 0, 0, 0.5);
+      transition: width 0.5s;
+    }
+
+    #image-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
       border-radius: 4px;
       z-index: 1001;
     }
+
     .toggle-control-button {
       position: absolute;
       top: 10px;
@@ -147,13 +174,11 @@
       popupAnchor: [0, -7.5]
     });
 
-    // Função para abrir o visualizador Mirador no iframe
     function openMirador(manifestUrl) {
       document.getElementById('image-frame').src = `https://projectmirador.org/embed/?iiif-content=${manifestUrl}`;
       toggleImageDisplay();
     }
 
-    // Criando os pins com ícones de bola cinza e associando os manifests
     const chafarizMarker = L.marker([-22.9676, -43.2240], { icon: grayCircleIcon }).addTo(map)
       .bindPopup("Chafariz das Musas");
     chafarizMarker.on('click', () => {
@@ -180,13 +205,14 @@
 
     function toggleImageDisplay() {
       const imageContainer = document.getElementById('image-container');
-      imageContainer.style.display = imageContainer.style.display === 'none' ? 'block' : 'none';
       imageContainer.style.display = imageContainer
       .style.display === 'none' ? 'block' : 'none';
     }
+
     function toggleLayerControl() {
       const layerControl = document.getElementById('layer-control');
       const button = document.querySelector('.toggle-control-button');
+
       if (layerControl.style.display === 'none') {
         layerControl.style.display = 'block';
         button.textContent = 'Minimizar Camadas';
