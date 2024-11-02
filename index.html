@@ -166,40 +166,53 @@
       map1844.setOpacity(parseFloat(e.target.value));
     });
 
-   // Criando o ícone de bola cinza com uma URL de imagem válida
-const grayCircleIcon = L.icon({
-  iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/8/84/Simple_gray_circle.png', // Substitua por um link válido
-  iconSize: [15, 15], // Tamanho do ícone
-  iconAnchor: [7.5, 7.5], // Ponto de ancoragem (centro do ícone)
-  popupAnchor: [0, -7.5] // Posição da popup em relação ao ícone
-});
+    // Criando o ícone de pin de mapa GPS
+    const gpsPinIcon = L.icon({
+      iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png', // Ícone padrão de marcador do Leaflet
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [0, -41]
+    });
 
-// Adicionando os pins com o ícone atualizado
-const chafarizMarker = L.marker([-22.9676, -43.2240], { icon: grayCircleIcon }).addTo(map)
-  .bindPopup("Chafariz das Musas");
+    function openMirador(manifestUrl) {
+      document.getElementById('image-frame').src = `https://projectmirador.org/embed/?iiif-content=${manifestUrl}`;
+      toggleImageDisplay();
+    }
 
-const bustoMarker = L.marker([-22.96851003, -43.22468785], { icon: grayCircleIcon }).addTo(map)
-  .bindPopup("Busto Frei Leandro");
+    const chafarizMarker = L.marker([-22.9676, -43.2240], { icon: gpsPinIcon }).addTo(map)
+      .bindPopup("Chafariz das Musas");
+    chafarizMarker.on('click', () => {
+      openMirador("https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json");
+    });
 
-const piloesMarker = L.marker([-22.9683360, -43.2268819], { icon: grayCircleIcon }).addTo(map)
-  .bindPopup("Casa de Pilões");
+    const bustoMarker = L.marker([-22.96851003, -43.22468785], { icon: gpsPinIcon }).addTo(map)
+      .bindPopup("Busto Frei Leandro");
+    bustoMarker.on('click', () => {
+      openMirador("https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json");
+    });
 
-const entradaPrincipalMarker = L.marker([-22.96925637, -43.22192888], { icon: grayCircleIcon }).addTo(map)
-  .bindPopup("Entrada Principal");
+    const piloesMarker = L.marker([-22.9683360, -43.2268819], { icon: gpsPinIcon }).addTo(map)
+      .bindPopup("Casa de Pilões");
+    piloesMarker.on('click', () => {
+      openMirador("https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_casadepiloes.json");
+    });
 
+    const entradaPrincipalMarker = L.marker([-22.96925637, -43.22192888], { icon: gpsPinIcon }).addTo(map)
+      .bindPopup("Entrada Principal");
+    entradaPrincipalMarker.on('click', () => {
+      openMirador("https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json");
     });
 
     function toggleImageDisplay() {
       const imageContainer = document.getElementById('image-container');
-      imageContainer.style.display = imageContainer
-      .style.display === 'none' ? 'block' : 'none';
+      imageContainer.style.display = imageContainer.style.display === 'none' ? 'block' : 'none';
     }
 
     function toggleLayerControl() {
       const layerControl = document.getElementById('layer-control');
       const button = document.querySelector('.toggle-control-button');
 
-      if (layerControl.style.display === 'none') {
+            if (layerControl.style.display === 'none') {
         layerControl.style.display = 'block';
         button.textContent = 'Minimizar Camadas';
       } else {
@@ -211,3 +224,4 @@ const entradaPrincipalMarker = L.marker([-22.96925637, -43.22192888], { icon: gr
 
 </body>
 </html>
+
