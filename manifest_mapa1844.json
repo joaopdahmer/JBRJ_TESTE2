@@ -1,6 +1,6 @@
 {
   "@context": "http://iiif.io/api/presentation/2/context.json",
-  "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/manifest.json",
+  "@id": "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest.json",
   "@type": "sc:Manifest",
   "label": "Mapa 1844",
   "sequences": [
@@ -8,7 +8,7 @@
       "@type": "sc:Sequence",
       "canvases": [
         {
-          "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/canvas/1",
+          "@id": "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/canvas/1",
           "@type": "sc:Canvas",
           "label": "Mapa 1844",
           "height": 5000,
@@ -17,9 +17,9 @@
             {
               "@type": "oa:Annotation",
               "motivation": "sc:painting",
-              "on": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/canvas/1",
+              "on": "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/canvas/1",
               "resource": {
-                "@id": "https://raw.githubusercontent.com/nokiahg/JBRJ_TESTE2/main/mapa_1844_transparente.png",
+                "@id": "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/mapa_1844_transparente.png",
                 "@type": "dctypes:Image",
                 "format": "image/png",
                 "height": 5000,
