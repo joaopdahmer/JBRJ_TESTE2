@@ -10,6 +10,7 @@
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
+      overflow-x: hidden;
     }
 
     #map-container {
@@ -22,6 +23,17 @@
     #map {
       width: 100%;
       height: 100%;
+    }
+
+    .layer-control {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
     }
 
     .content-section {
@@ -51,6 +63,17 @@
   <!-- Mapa na parte superior da página -->
   <div id="map-container">
     <div id="map"></div>
+    <div class="layer-control" id="layer-control">
+      <button onclick="toggleLayerControl()">Recolher Camadas</button>
+      <div>
+        <input type="checkbox" id="toggle1809">
+        <label for="toggle1809">Mapa 1809</label>
+      </div>
+      <div>
+        <input type="checkbox" id="toggle1844">
+        <label for="toggle1844">Mapa 1844</label>
+      </div>
+    </div>
   </div>
 
   <!-- Seções de narrativas -->
@@ -104,11 +127,13 @@
     </div>
   </div>
 
+  <!-- Outros trechos de narrativas podem ser adicionados aqui -->
+
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script>
     // Configuração do mapa Leaflet
     const map = L.map('map').setView([-22.975, -43.225], 15);
-    const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
@@ -126,48 +151,50 @@
       { opacity: 0.7 }
     );
 
-    // Adicionando o controle de camadas
-    const baseLayers = {
-      "OpenStreetMap": osmLayer,
-    };
+    // Controle de camadas
+    document.getElementById('toggle1809').addEventListener('change', (e) => {
+      e.target.checked ? map.addLayer(map1809) : map.removeLayer(map1809);
+    });
 
-    const overlayMaps = {
-      "Mapa 1809": map1809,
-      "Mapa 1844": map1844,
-    };
-
-    L.control.layers(baseLayers, overlayMaps, { collapsed: false, position: 'topright' }).addTo(map);
+    document.getElementById('toggle1844').addEventListener('change', (e) => {
+      e.target.checked ? map.addLayer(map1844) : map.removeLayer(map1844);
+    });
 
     // Adicionando os pins e interações
     const chafarizMarker = L.marker([-22.9676, -43.2240]).addTo(map).bindPopup("Chafariz das Musas");
     const bustoMarker = L.marker([-22.9685, -43.2247]).addTo(map).bindPopup("Busto Frei Leandro");
-    const piloesMarker = L.marker([-22.9683, -43.2268]).addTo(map).bindPopup("Casa de Pilões");
-    const entradaMarker = L.marker([-22.9692, -43.2219]).addTo(map).bindPopup("Entrada Principal");
-    const aquedutoMarker = L.marker([-22.9688, -43.2305]).addTo(map).bindPopup("Aqueduto");
 
     function zoomToMarker(marker) {
-      map.setView(marker.getLatLng(), 17);
+      map.flyTo(marker.getLatLng(), 17, { duration: 1.5 });
     }
 
     function resetZoom() {
-      map.setView([-22.975, -43.225], 15);
+      map.flyTo([-22.975, -43.225], 15, { duration: 1.5 });
     }
 
-    window.addEventListener('scroll', () => {
-      const sections = document.querySelectorAll('.content-section');
-      sections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
-          if (section.id === 'section-chafariz') zoomToMarker(chafarizMarker);
-          else if (section.id === 'section-frei-leandro') zoomToMarker(bustoMarker);
-          else if (section.id === 'section-casa-piloes') zoomToMarker(piloesMarker);
-          else if (section.id === 'section-entrada-principal') zoomToMarker(entradaMarker);
-          else if (section.id === 'section-aqueduto') zoomToMarker(aquedutoMarker);
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.5
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (entry.target.id === 'section-chafariz') zoomToMarker(chafarizMarker);
+          else if (entry.target.id === 'section-frei-leandro') zoomToMarker(bustoMarker);
         } else {
           resetZoom();
         }
       });
-    });
+    }, observerOptions);
+
+    document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
+
+    function toggleLayerControl() {
+      const layerControl = document.getElementById('layer-control');
+      layerControl.style.display = layerControl.style.display === 'none' ? 'block' : 'none';
+    }
   </script>
 
 </body>
