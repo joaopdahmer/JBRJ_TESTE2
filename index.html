@@ -18,10 +18,8 @@
     }
 
     #map-container {
-      height: 50vh;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      height: 70vh;
+      position: relative;
     }
 
     #map {
@@ -41,10 +39,10 @@
     }
 
     .content-section {
-      display: flex;
-      height: 50vh;
-      margin-bottom: 20px;
+      display: none;
+      height: 30vh;
       align-items: center;
+      justify-content: center;
     }
 
     .content-container, .image-container {
@@ -75,11 +73,15 @@
       height: 90%;
       border: none;
     }
+
+    .visible {
+      display: flex;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Mapa fixo na metade superior da tela -->
+  <!-- Mapa fixo maior na parte superior da tela -->
   <div id="map-container">
     <div id="map"></div>
     <div class="layer-control">
@@ -165,7 +167,6 @@
       e.target.checked ? map.addLayer(map1844) : map.removeLayer(map1844);
     });
 
-    // Adicionando os pins
     const chafarizMarker = L.marker([-22.9676, -43.2240]).addTo(map).bindPopup("Chafariz das Musas");
     const bustoMarker = L.marker([-22.9685, -43.2247]).addTo(map).bindPopup("Busto Frei Leandro");
     const piloesMarker = L.marker([-22.9683, -43.2268]).addTo(map).bindPopup("Casa de Pilões");
@@ -180,14 +181,19 @@
     }
 
     const sections = document.querySelectorAll('.content-section');
+    let activeSection = 0;
+
     window.addEventListener('scroll', () => {
-      sections.forEach((section) => {
+      sections.forEach((section, index) => {
         const rect = section.getBoundingClientRect();
         if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
-          if (section.id === 'section-chafariz') zoomToMarker(chafarizMarker);
-          else if (section.id === 'section-frei-leandro') zoomToMarker(bustoMarker);
-          else if (section.id === 'section-casa-piloes') zoomToMarker(piloesMarker);
-          else if (section.id === 'section-entrada-principal') zoomToMarker(entradaMarker);
+          if (activeSection !== index) {
+            activeSection = index;
+            if (section.id === 'section-chafariz') zoomToMarker(chafarizMarker);
+            else if (section.id === 'section-frei-leandro') zoomToMarker(bustoMarker);
+            else if (section.id === 'section-casa-piloes') zoomToMarker(piloesMarker);
+            else if (section.id === 'section-entrada-principal') zoomToMarker(entradaMarker);
+          }
         } else {
           resetZoom();
         }
