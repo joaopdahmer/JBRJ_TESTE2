@@ -37,9 +37,16 @@
       height: 500px;
     }
 
-    iframe {
+    #image-container {
+      display: none;
       width: 100%;
       height: 500px;
+      margin-top: 20px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
       border: none;
     }
   </style>
@@ -48,74 +55,44 @@
 
   <!-- Seção Mapa 1809 -->
   <div class="section">
+    <div class="map-container" id="map-1809"></div>
     <div class="narrative">
       <h2>Mapa de 1809</h2>
       <p>Descrição e história do Jardim Botânico em 1809, destacando os elementos iniciais da construção...</p>
     </div>
-    <div class="map-container" id="map-1809"></div>
   </div>
 
   <!-- Seção Mapa 1844 -->
   <div class="section">
-    <div class="map-container" id="map-1844"></div>
     <div class="narrative">
       <h2>Mapa de 1844</h2>
       <p>Descrição e história do Jardim Botânico em 1844, mostrando a expansão e desenvolvimento...</p>
     </div>
+    <div class="map-container" id="map-1844"></div>
   </div>
 
-  <!-- Seção Pins com Narrativa e Imagens IIIF -->
-  <div class="section">
-    <div class="narrative">
-      <h2>Chafariz das Musas</h2>
-      <p>História e importância do Chafariz das Musas no Jardim Botânico...</p>
-    </div>
-    <div class="map-container" id="map-chafariz"></div>
-    <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json"></iframe>
-  </div>
-
-  <div class="section">
-    <div class="map-container" id="map-busto"></div>
-    <div class="narrative">
-      <h2>Busto Frei Leandro</h2>
-      <p>Descrição e importância do Busto de Frei Leandro na história do Jardim Botânico...</p>
-    </div>
-    <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json"></iframe>
-  </div>
-
-  <div class="section">
-    <div class="narrative">
-      <h2>Casa de Pilões</h2>
-      <p>História e significado da Casa de Pilões...</p>
-    </div>
-    <div class="map-container" id="map-piloes"></div>
-    <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_casadepiloes.json"></iframe>
-  </div>
-
-  <div class="section">
-    <div class="map-container" id="map-entrada"></div>
-    <div class="narrative">
-      <h2>Entrada Principal</h2>
-      <p>Descrição da importância da entrada principal do Jardim Botânico...</p>
-    </div>
-    <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json"></iframe>
-  </div>
-
-  <div class="section">
-    <div class="narrative">
-      <h2>Aqueduto</h2>
-      <p>História e papel do Aqueduto no Jardim Botânico...</p>
-    </div>
-    <div class="map-container" id="map-aqueduto"></div>
-    <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_aqueduto.json"></iframe>
+  <!-- Contêiner de visualização de imagem -->
+  <div id="image-container">
+    <iframe id="image-frame" allowfullscreen></iframe>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script>
-    function initializeMap(containerId, lat, lng) {
-      const map = L.map(containerId).setView([lat, lng], 18);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+    function initializeMap(containerId, lat, lng, overlayUrl, bounds) {
+      const map = L.map(containerId).setView([lat, lng], 15);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
 
+      if (overlayUrl) {
+        L.imageOverlay(overlayUrl, bounds, { opacity: 0.7 }).addTo(map);
+      }
+
+      return map;
+    }
+
+    function addPin(map, lat, lng, popupText, manifestUrl) {
       const pinIcon = L.icon({
         iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
         iconSize: [25, 41],
@@ -123,28 +100,36 @@
         popupAnchor: [0, -41]
       });
 
-      L.marker([lat, lng], { icon: pinIcon }).addTo(map);
+      const marker = L.marker([lat, lng], { icon: pinIcon }).addTo(map).bindPopup(popupText);
+      marker.on('click', () => {
+        document.getElementById('image-frame').src = `https://projectmirador.org/embed/?iiif-content=${manifestUrl}`;
+        document.getElementById('image-container').style.display = 'block';
+      });
     }
 
-    // Inicializando mapas georreferenciados
-    L.imageOverlay(
+    // Mapas de 1809 e 1844 georreferenciados
+    const map1809 = initializeMap(
+      'map-1809',
+      -22.975,
+      -43.225,
       'https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/mapa_1809.png',
-      [[-23.0113, -43.2596], [-22.9426, -43.1790]],
-      { opacity: 0.7 }
-    ).addTo(L.map('map-1809').setView([-22.975, -43.225], 15));
+      [[-23.0113, -43.2596], [-22.9426, -43.1790]]
+    );
 
-    L.imageOverlay(
+    const map1844 = initializeMap(
+      'map-1844',
+      -22.975,
+      -43.225,
       'https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/mapa_1844.png',
-      [[-23.0169, -43.2705], [-22.9313, -43.1775]],
-      { opacity: 0.7 }
-    ).addTo(L.map('map-1844').setView([-22.975, -43.225], 15));
+      [[-23.0169, -43.2705], [-22.9313, -43.1775]]
+    );
 
-    // Inicializando mapas para pins
-    initializeMap('map-chafariz', -22.9676, -43.2240);
-    initializeMap('map-busto', -22.96851003, -43.22468785);
-    initializeMap('map-piloes', -22.9683360, -43.2268819);
-    initializeMap('map-entrada', -22.96925637, -43.22192888);
-    initializeMap('map-aqueduto', -22.96880231, -43.23052051);
+    // Adicionando pins e seus eventos
+    addPin(map1809, -22.9676, -43.2240, "Chafariz das Musas", "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json");
+    addPin(map1844, -22.96851003, -43.22468785, "Busto Frei Leandro", "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json");
+    addPin(map1809, -22.9683360, -43.2268819, "Casa de Pilões", "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_casadepiloes.json");
+    addPin(map1844, -22.96925637, -43.22192888, "Entrada Principal", "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json");
+    addPin(map1809, -22.96880231, -43.23052051, "Aqueduto", "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_aqueduto.json");
   </script>
 
 </body>
