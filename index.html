@@ -14,59 +14,16 @@
       display: flex;
       flex-direction: column;
       height: 100vh;
-      overflow-y: auto;
     }
 
-    .section {
-      display: flex;
+    #map-container {
       height: 50vh;
-      margin-bottom: 20px;
-    }
-
-    .map-container, .content-container {
-      flex: 1;
       position: relative;
-      padding: 10px;
-    }
-
-    .map-container {
-      height: 100%;
     }
 
     #map {
       width: 100%;
       height: 100%;
-    }
-
-    .content-container {
-      background-color: #f7f7f7;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .content-container h2 {
-      margin: 0;
-      font-size: 1.5em;
-    }
-
-    .content-container p {
-      margin: 10px 0;
-      font-size: 1em;
-    }
-
-    .image-container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    iframe {
-      width: 80%;
-      height: 80%;
-      border: none;
     }
 
     .layer-control {
@@ -79,69 +36,101 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       z-index: 1000;
     }
+
+    .content-section {
+      display: flex;
+      height: 50vh;
+      margin-bottom: 20px;
+      overflow-y: auto;
+    }
+
+    .content-container, .image-container {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .content-container {
+      background-color: #f7f7f7;
+    }
+
+    .content-container h2 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+
+    .content-container p {
+      margin-top: 10px;
+      font-size: 1em;
+    }
+
+    .image-container iframe {
+      width: 90%;
+      height: 90%;
+      border: none;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Primeira seção: Mapa e Chafariz das Musas -->
-  <div class="section">
-    <div class="map-container" id="map-container-1">
-      <div id="map"></div>
-      <div class="layer-control" id="layer-control">
-        <h3>Gerenciar Camadas</h3>
-        <div>
-          <input type="checkbox" id="toggle1809">
-          <label for="toggle1809">Mapa 1809</label>
-        </div>
-        <div>
-          <input type="checkbox" id="toggle1844">
-          <label for="toggle1844">Mapa 1844</label>
-        </div>
+  <!-- Mapa na metade superior da tela -->
+  <div id="map-container">
+    <div id="map"></div>
+    <div class="layer-control">
+      <h3>Gerenciar Camadas</h3>
+      <div>
+        <input type="checkbox" id="toggle1809">
+        <label for="toggle1809">Mapa 1809</label>
+      </div>
+      <div>
+        <input type="checkbox" id="toggle1844">
+        <label for="toggle1844">Mapa 1844</label>
       </div>
     </div>
+  </div>
+
+  <!-- Seções de narrativas e imagens -->
+  <div class="content-section">
     <div class="content-container">
       <h2>Chafariz das Musas</h2>
       <p>O Chafariz das Musas é uma obra emblemática do Jardim Botânico...</p>
-      <div class="image-container">
-        <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json" allowfullscreen></iframe>
-      </div>
+    </div>
+    <div class="image-container">
+      <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json" allowfullscreen></iframe>
     </div>
   </div>
 
-  <!-- Segunda seção: Busto Frei Leandro -->
-  <div class="section">
+  <div class="content-section">
+    <div class="image-container">
+      <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json" allowfullscreen></iframe>
+    </div>
     <div class="content-container">
       <h2>Busto Frei Leandro</h2>
       <p>O busto de Frei Leandro homenageia o grande botânico e diretor...</p>
-      <div class="image-container">
-        <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json" allowfullscreen></iframe>
-      </div>
     </div>
-    <div class="map-container" id="map-container-2"></div>
   </div>
 
-  <!-- Terceira seção: Casa de Pilões -->
-  <div class="section">
-    <div class="map-container" id="map-container-3"></div>
+  <div class="content-section">
     <div class="content-container">
       <h2>Casa de Pilões</h2>
       <p>A Casa de Pilões representa a história da moagem de cana...</p>
-      <div class="image-container">
-        <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_casadepiloes.json" allowfullscreen></iframe>
-      </div>
+    </div>
+    <div class="image-container">
+      <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_casadepiloes.json" allowfullscreen></iframe>
     </div>
   </div>
 
-  <!-- Quarta seção: Entrada Principal -->
-  <div class="section">
+  <div class="content-section">
+    <div class="image-container">
+      <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json" allowfullscreen></iframe>
+    </div>
     <div class="content-container">
       <h2>Entrada Principal</h2>
       <p>A entrada principal do Jardim Botânico é a porta de entrada...</p>
-      <div class="image-container">
-        <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json" allowfullscreen></iframe>
-      </div>
     </div>
-    <div class="map-container" id="map-container-4"></div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
