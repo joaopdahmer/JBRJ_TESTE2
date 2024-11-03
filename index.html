@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jardim Botânico - Visualização Histórica</title>
+  <title>Jardim Botânico - Narrativas e Mapa</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <style>
@@ -12,102 +12,136 @@
       padding: 0;
       font-family: Arial, sans-serif;
       display: flex;
+      flex-direction: column;
       height: 100vh;
+      overflow-y: auto;
     }
 
-    .sidebar {
-      width: 25%;
-      background-color: #f7f7f7;
-      padding: 20px;
-      overflow-y: auto;
-      border-right: 1px solid #ddd;
+    .section {
+      display: flex;
+      height: 50vh;
+      margin-bottom: 20px;
+    }
+
+    .map-container, .content-container {
+      flex: 1;
+      position: relative;
+      padding: 10px;
     }
 
     .map-container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      position: relative;
+      height: 100%;
     }
 
     #map {
-      flex: 1;
-      height: 50%;
+      width: 100%;
+      height: 100%;
+    }
+
+    .content-container {
+      background-color: #f7f7f7;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .content-container h2 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+
+    .content-container p {
+      margin: 10px 0;
+      font-size: 1em;
     }
 
     .image-container {
       flex: 1;
-      display: none;
-      background-color: white;
-      box-shadow: -10px 0 15px rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     iframe {
-      width: 100%;
-      height: 100%;
+      width: 80%;
+      height: 80%;
       border: none;
     }
 
-    .pin-narrative {
-      margin-bottom: 20px;
-    }
-
-    .pin-narrative h3 {
-      margin: 0;
-      font-size: 1.2em;
-    }
-
-    .pin-narrative p {
-      margin: 5px 0 15px;
-      font-size: 0.9em;
-    }
-
-    .pin-narrative button {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      cursor: pointer;
-      border-radius: 4px;
+    .layer-control {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
     }
   </style>
 </head>
 <body>
 
-  <div class="sidebar">
-    <h2>Narrativas</h2>
-    <div class="pin-narrative" id="chafariz-narrative">
-      <h3>Chafariz das Musas</h3>
-      <p>Descrição histórica do Chafariz das Musas...</p>
-      <button onclick="focusPin('chafariz')">Ver no mapa</button>
+  <!-- Primeira seção: Mapa e Chafariz das Musas -->
+  <div class="section">
+    <div class="map-container" id="map-container-1">
+      <div id="map"></div>
+      <div class="layer-control" id="layer-control">
+        <h3>Gerenciar Camadas</h3>
+        <div>
+          <input type="checkbox" id="toggle1809">
+          <label for="toggle1809">Mapa 1809</label>
+        </div>
+        <div>
+          <input type="checkbox" id="toggle1844">
+          <label for="toggle1844">Mapa 1844</label>
+        </div>
+      </div>
     </div>
-    <div class="pin-narrative" id="busto-narrative">
-      <h3>Busto Frei Leandro</h3>
-      <p>Descrição histórica do Busto Frei Leandro...</p>
-      <button onclick="focusPin('busto')">Ver no mapa</button>
-    </div>
-    <div class="pin-narrative" id="piloes-narrative">
-      <h3>Casa de Pilões</h3>
-      <p>Descrição histórica da Casa de Pilões...</p>
-      <button onclick="focusPin('piloes')">Ver no mapa</button>
-    </div>
-    <div class="pin-narrative" id="entrada-narrative">
-      <h3>Entrada Principal</h3>
-      <p>Descrição da Entrada Principal do Jardim Botânico...</p>
-      <button onclick="focusPin('entrada')">Ver no mapa</button>
-    </div>
-    <div class="pin-narrative" id="aqueduto-narrative">
-      <h3>Aqueduto</h3>
-      <p>Descrição histórica do Aqueduto...</p>
-      <button onclick="focusPin('aqueduto')">Ver no mapa</button>
+    <div class="content-container">
+      <h2>Chafariz das Musas</h2>
+      <p>O Chafariz das Musas é uma obra emblemática do Jardim Botânico...</p>
+      <div class="image-container">
+        <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json" allowfullscreen></iframe>
+      </div>
     </div>
   </div>
 
-  <div class="map-container">
-    <div id="map"></div>
-    <div class="image-container" id="image-container">
-      <iframe id="image-frame" allowfullscreen></iframe>
+  <!-- Segunda seção: Busto Frei Leandro -->
+  <div class="section">
+    <div class="content-container">
+      <h2>Busto Frei Leandro</h2>
+      <p>O busto de Frei Leandro homenageia o grande botânico e diretor...</p>
+      <div class="image-container">
+        <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json" allowfullscreen></iframe>
+      </div>
     </div>
+    <div class="map-container" id="map-container-2"></div>
+  </div>
+
+  <!-- Terceira seção: Casa de Pilões -->
+  <div class="section">
+    <div class="map-container" id="map-container-3"></div>
+    <div class="content-container">
+      <h2>Casa de Pilões</h2>
+      <p>A Casa de Pilões representa a história da moagem de cana...</p>
+      <div class="image-container">
+        <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_casadepiloes.json" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quarta seção: Entrada Principal -->
+  <div class="section">
+    <div class="content-container">
+      <h2>Entrada Principal</h2>
+      <p>A entrada principal do Jardim Botânico é a porta de entrada...</p>
+      <div class="image-container">
+        <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="map-container" id="map-container-4"></div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -131,38 +165,13 @@
       { opacity: 0.7 }
     );
 
-    map.addLayer(map1809);
-    map.addLayer(map1844);
+    document.getElementById('toggle1809').addEventListener('change', (e) => {
+      e.target.checked ? map.addLayer(map1809) : map.removeLayer(map1809);
+    });
 
-    const pins = {
-      chafariz: L.marker([-22.9676, -43.2240]).addTo(map).bindPopup("Chafariz das Musas"),
-      busto: L.marker([-22.96851003, -43.22468785]).addTo(map).bindPopup("Busto Frei Leandro"),
-      piloes: L.marker([-22.9683360, -43.2268819]).addTo(map).bindPopup("Casa de Pilões"),
-      entrada: L.marker([-22.96925637, -43.22192888]).addTo(map).bindPopup("Entrada Principal"),
-      aqueduto: L.marker([-22.96880231, -43.23052051]).addTo(map).bindPopup("Aqueduto")
-    };
-
-    function focusPin(pinId) {
-      const pin = pins[pinId];
-      if (pin) {
-        map.setView(pin.getLatLng(), 17);
-        pin.openPopup();
-        showImage(pinId);
-      }
-    }
-
-    function showImage(pinId) {
-      const manifests = {
-        chafariz: "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json",
-        busto: "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json",
-        piloes: "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_casadepiloes.json",
-        entrada: "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json",
-        aqueduto: "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_aqueduto.json"
-      };
-
-      document.getElementById('image-frame').src = `https://projectmirador.org/embed/?iiif-content=${manifests[pinId]}`;
-      document.getElementById('image-container').style.display = 'block';
-    }
+    document.getElementById('toggle1844').addEventListener('change', (e) => {
+      e.target.checked ? map.addLayer(map1844) : map.removeLayer(map1844);
+    });
   </script>
 
 </body>
