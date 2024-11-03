@@ -4,44 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jardim Botânico - Visualização Histórica</title>
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <style>
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      line-height: 1.6;
+      display: flex;
+      height: 100vh;
     }
 
-    .section {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 20px;
+    .sidebar {
+      width: 25%;
+      background-color: #f7f7f7;
       padding: 20px;
-      border-bottom: 1px solid #ddd;
+      overflow-y: auto;
+      border-right: 1px solid #ddd;
     }
 
     .map-container {
-      width: 50%;
-      height: 500px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
       position: relative;
     }
 
-    .narrative {
-      width: 45%;
-      background-color: white;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      overflow-y: auto;
-      height: 500px;
+    #map {
+      flex: 1;
+      height: 50%;
     }
 
-    #image-container {
+    .image-container {
+      flex: 1;
       display: none;
-      width: 100%;
-      height: 500px;
-      margin-top: 20px;
+      background-color: white;
+      box-shadow: -10px 0 15px rgba(0, 0, 0, 0.5);
     }
 
     iframe {
@@ -49,87 +47,122 @@
       height: 100%;
       border: none;
     }
+
+    .pin-narrative {
+      margin-bottom: 20px;
+    }
+
+    .pin-narrative h3 {
+      margin: 0;
+      font-size: 1.2em;
+    }
+
+    .pin-narrative p {
+      margin: 5px 0 15px;
+      font-size: 0.9em;
+    }
+
+    .pin-narrative button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Seção Mapa 1809 -->
-  <div class="section">
-    <div class="map-container" id="map-1809"></div>
-    <div class="narrative">
-      <h2>Mapa de 1809</h2>
-      <p>Descrição e história do Jardim Botânico em 1809, destacando os elementos iniciais da construção...</p>
+  <div class="sidebar">
+    <h2>Narrativas</h2>
+    <div class="pin-narrative" id="chafariz-narrative">
+      <h3>Chafariz das Musas</h3>
+      <p>Descrição histórica do Chafariz das Musas...</p>
+      <button onclick="focusPin('chafariz')">Ver no mapa</button>
+    </div>
+    <div class="pin-narrative" id="busto-narrative">
+      <h3>Busto Frei Leandro</h3>
+      <p>Descrição histórica do Busto Frei Leandro...</p>
+      <button onclick="focusPin('busto')">Ver no mapa</button>
+    </div>
+    <div class="pin-narrative" id="piloes-narrative">
+      <h3>Casa de Pilões</h3>
+      <p>Descrição histórica da Casa de Pilões...</p>
+      <button onclick="focusPin('piloes')">Ver no mapa</button>
+    </div>
+    <div class="pin-narrative" id="entrada-narrative">
+      <h3>Entrada Principal</h3>
+      <p>Descrição da Entrada Principal do Jardim Botânico...</p>
+      <button onclick="focusPin('entrada')">Ver no mapa</button>
+    </div>
+    <div class="pin-narrative" id="aqueduto-narrative">
+      <h3>Aqueduto</h3>
+      <p>Descrição histórica do Aqueduto...</p>
+      <button onclick="focusPin('aqueduto')">Ver no mapa</button>
     </div>
   </div>
 
-  <!-- Seção Mapa 1844 -->
-  <div class="section">
-    <div class="narrative">
-      <h2>Mapa de 1844</h2>
-      <p>Descrição e história do Jardim Botânico em 1844, mostrando a expansão e desenvolvimento...</p>
+  <div class="map-container">
+    <div id="map"></div>
+    <div class="image-container" id="image-container">
+      <iframe id="image-frame" allowfullscreen></iframe>
     </div>
-    <div class="map-container" id="map-1844"></div>
-  </div>
-
-  <!-- Contêiner de visualização de imagem -->
-  <div id="image-container">
-    <iframe id="image-frame" allowfullscreen></iframe>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script>
-    function initializeMap(containerId, lat, lng, overlayUrl, bounds) {
-      const map = L.map(containerId).setView([lat, lng], 15);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; OpenStreetMap contributors'
-      }).addTo(map);
+    const map = L.map('map').setView([-22.975, -43.225], 15);
 
-      if (overlayUrl) {
-        L.imageOverlay(overlayUrl, bounds, { opacity: 0.7 }).addTo(map);
-      }
+    const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
 
-      return map;
-    }
-
-    function addPin(map, lat, lng, popupText, manifestUrl) {
-      const pinIcon = L.icon({
-        iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [0, -41]
-      });
-
-      const marker = L.marker([lat, lng], { icon: pinIcon }).addTo(map).bindPopup(popupText);
-      marker.on('click', () => {
-        document.getElementById('image-frame').src = `https://projectmirador.org/embed/?iiif-content=${manifestUrl}`;
-        document.getElementById('image-container').style.display = 'block';
-      });
-    }
-
-    // Mapas de 1809 e 1844 georreferenciados
-    const map1809 = initializeMap(
-      'map-1809',
-      -22.975,
-      -43.225,
+    const map1809 = L.imageOverlay(
       'https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/mapa_1809.png',
-      [[-23.0113, -43.2596], [-22.9426, -43.1790]]
+      [[-23.0113, -43.2596], [-22.9426, -43.1790]],
+      { opacity: 0.7 }
     );
 
-    const map1844 = initializeMap(
-      'map-1844',
-      -22.975,
-      -43.225,
+    const map1844 = L.imageOverlay(
       'https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/mapa_1844.png',
-      [[-23.0169, -43.2705], [-22.9313, -43.1775]]
+      [[-23.0169, -43.2705], [-22.9313, -43.1775]],
+      { opacity: 0.7 }
     );
 
-    // Adicionando pins e seus eventos
-    addPin(map1809, -22.9676, -43.2240, "Chafariz das Musas", "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json");
-    addPin(map1844, -22.96851003, -43.22468785, "Busto Frei Leandro", "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json");
-    addPin(map1809, -22.9683360, -43.2268819, "Casa de Pilões", "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_casadepiloes.json");
-    addPin(map1844, -22.96925637, -43.22192888, "Entrada Principal", "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json");
-    addPin(map1809, -22.96880231, -43.23052051, "Aqueduto", "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_aqueduto.json");
+    map.addLayer(map1809);
+    map.addLayer(map1844);
+
+    const pins = {
+      chafariz: L.marker([-22.9676, -43.2240]).addTo(map).bindPopup("Chafariz das Musas"),
+      busto: L.marker([-22.96851003, -43.22468785]).addTo(map).bindPopup("Busto Frei Leandro"),
+      piloes: L.marker([-22.9683360, -43.2268819]).addTo(map).bindPopup("Casa de Pilões"),
+      entrada: L.marker([-22.96925637, -43.22192888]).addTo(map).bindPopup("Entrada Principal"),
+      aqueduto: L.marker([-22.96880231, -43.23052051]).addTo(map).bindPopup("Aqueduto")
+    };
+
+    function focusPin(pinId) {
+      const pin = pins[pinId];
+      if (pin) {
+        map.setView(pin.getLatLng(), 17);
+        pin.openPopup();
+        showImage(pinId);
+      }
+    }
+
+    function showImage(pinId) {
+      const manifests = {
+        chafariz: "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json",
+        busto: "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json",
+        piloes: "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_casadepiloes.json",
+        entrada: "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json",
+        aqueduto: "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_aqueduto.json"
+      };
+
+      document.getElementById('image-frame').src = `https://projectmirador.org/embed/?iiif-content=${manifests[pinId]}`;
+      document.getElementById('image-container').style.display = 'block';
+    }
   </script>
 
 </body>
