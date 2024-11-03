@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jardim Botânico - Narrativas e Mapa Interativo</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
   <style>
     body {
       margin: 0;
@@ -78,7 +77,6 @@
   </div>
 
   <!-- Seções de narrativas -->
-  <!-- Seções de narrativas -->
   <div class="content-section" id="section-chafariz">
     <div class="content-container">
       <h2>Chafariz das Musas</h2>
@@ -128,10 +126,8 @@
       <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_aqueduto.json" allowfullscreen></iframe>
     </div>
   </div>
-  <!-- (Mantenha as seções de narrativas aqui como no código original) -->
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.min.js"></script>
   <script>
     // Configuração do mapa Leaflet
     const map = L.map('map').setView([-22.975, -43.225], 15);
@@ -200,30 +196,6 @@
       const layerControl = document.getElementById('layer-control');
       layerControl.style.display = layerControl.style.display === 'none' ? 'block' : 'none';
     }
-
-    // Adicionando a funcionalidade de roteamento ao mapa
-    L.Routing.control({
-      waypoints: [
-        L.latLng(-22.9692, -43.2219), // Entrada Principal
-        L.latLng(-22.9676, -43.2240), // Chafariz das Musas
-        L.latLng(-22.9683, -43.2268)  // Casa de Pilões
-      ],
-      routeWhileDragging: true,
-      createMarker: function(i, waypoint, n) {
-        // Customização dos marcadores dos pontos de rota
-        return L.marker(waypoint.latLng, {
-          draggable: true
-        });
-      },
-      showAlternatives: true, // Mostrar rotas alternativas (opcional)
-      altLineOptions: {
-        styles: [
-          { color: 'black', opacity: 0.15, weight: 9 },
-          { color: 'white', opacity: 0.8, weight: 6 },
-          { color: 'blue', opacity: 0.5, weight: 2 }
-        ]
-      }
-    }).addTo(map);
   </script>
 
 </body>
