@@ -76,7 +76,8 @@
     </div>
   </div>
 
-  <!-- Seções de narrativas -->
+
+<!-- Seções de narrativas -->
   <div class="content-section" id="section-chafariz">
     <div class="content-container">
       <h2>Chafariz das Musas</h2>
@@ -127,8 +128,6 @@
     </div>
   </div>
 
-  <!-- Outros trechos de narrativas podem ser adicionados aqui -->
-
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script>
     // Configuração do mapa Leaflet
@@ -151,7 +150,6 @@
       { opacity: 0.7 }
     );
 
-    // Controle de camadas
     document.getElementById('toggle1809').addEventListener('change', (e) => {
       e.target.checked ? map.addLayer(map1809) : map.removeLayer(map1809);
     });
@@ -163,13 +161,20 @@
     // Adicionando os pins e interações
     const chafarizMarker = L.marker([-22.9676, -43.2240]).addTo(map).bindPopup("Chafariz das Musas");
     const bustoMarker = L.marker([-22.9685, -43.2247]).addTo(map).bindPopup("Busto Frei Leandro");
+    const piloesMarker = L.marker([-22.9683, -43.2268]).addTo(map).bindPopup("Casa de Pilões");
+    const entradaMarker = L.marker([-22.9692, -43.2219]).addTo(map).bindPopup("Entrada Principal");
+    const aquedutoMarker = L.marker([-22.9688, -43.2305]).addTo(map).bindPopup("Aqueduto");
+
+    const markers = {
+      'section-chafariz': chafarizMarker,
+      'section-frei-leandro': bustoMarker,
+      'section-casa-piloes': piloesMarker,
+      'section-entrada-principal': entradaMarker,
+      'section-aqueduto': aquedutoMarker
+    };
 
     function zoomToMarker(marker) {
       map.flyTo(marker.getLatLng(), 17, { duration: 1.5 });
-    }
-
-    function resetZoom() {
-      map.flyTo([-22.975, -43.225], 15, { duration: 1.5 });
     }
 
     const observerOptions = {
@@ -181,10 +186,7 @@
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          if (entry.target.id === 'section-chafariz') zoomToMarker(chafarizMarker);
-          else if (entry.target.id === 'section-frei-leandro') zoomToMarker(bustoMarker);
-        } else {
-          resetZoom();
+          zoomToMarker(markers[entry.target.id]);
         }
       });
     }, observerOptions);
