@@ -24,18 +24,6 @@
       height: 100%;
     }
 
-    .layer-control {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      display: none;
-    }
-
     .content-section {
       display: flex;
       flex-direction: column;
@@ -63,26 +51,13 @@
   <!-- Mapa na parte superior da página -->
   <div id="map-container">
     <div id="map"></div>
-    <div class="layer-control" id="layer-control">
-      <button onclick="toggleLayerControl()">Recolher Camadas</button>
-      <div>
-        <input type="checkbox" id="toggle1809">
-        <label for="toggle1809">Mapa 1809</label>
-      </div>
-      <div>
-        <input type="checkbox" id="toggle1844">
-        <label for="toggle1844">Mapa 1844</label>
-      </div>
-    </div>
   </div>
 
   <!-- Seções de narrativas -->
   <div class="content-section" id="section-chafariz">
     <div class="content-container">
       <h2>Chafariz das Musas</h2>
-      <p>
-        O Chafariz das Musas é uma das peças centrais do Jardim Botânico do Rio de Janeiro. Instalado em 1895, o chafariz de ferro fundido foi importado da Inglaterra e apresenta figuras femininas que representam as musas da mitologia grega. Localizado em uma das áreas mais visitadas do Jardim, o Chafariz das Musas é cercado por árvores centenárias e plantas ornamentais, criando um espaço de contemplação e beleza. Esta obra é um exemplo da influência europeia na arquitetura e na paisagem do Jardim Botânico, sendo um ponto de parada obrigatório para os visitantes que desejam conhecer mais sobre a história e o simbolismo do local.
-      </p>
+      <p>O Chafariz das Musas é uma das peças centrais do Jardim Botânico do Rio de Janeiro...</p>
     </div>
     <div class="image-container">
       <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json" allowfullscreen></iframe>
@@ -92,9 +67,7 @@
   <div class="content-section" id="section-frei-leandro">
     <div class="content-container">
       <h2>Busto Frei Leandro</h2>
-      <p>
-        O busto de Frei Leandro é uma homenagem a Frei Leandro do Sacramento, um dos primeiros diretores do Jardim Botânico e uma figura de grande relevância na botânica brasileira. Sob sua liderança, o Jardim se expandiu e se tornou um centro de estudos e aclimatação de plantas exóticas. O busto, esculpido em bronze, está situado em um local de destaque, cercado por espécies vegetais que simbolizam a diversidade e o empenho científico promovido por Frei Leandro durante o século XIX. A presença deste monumento lembra os esforços pioneiros para a criação e preservação de um dos principais jardins botânicos da América Latina.
-      </p>
+      <p>O busto de Frei Leandro homenageia um dos primeiros diretores do Jardim Botânico...</p>
     </div>
     <div class="image-container">
       <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json" allowfullscreen></iframe>
@@ -104,9 +77,7 @@
   <div class="content-section" id="section-casa-piloes">
     <div class="content-container">
       <h2>Casa de Pilões</h2>
-      <p>
-        A Casa de Pilões é um dos elementos históricos do Jardim Botânico que remete à época colonial. Originalmente, a estrutura era utilizada para a moagem de cana-de-açúcar, evidenciando o passado agrícola da região. Com paredes de pedra e arquitetura robusta, a Casa de Pilões é uma lembrança das antigas fazendas e engenhos que operavam nos arredores do Rio de Janeiro. Hoje, o espaço é um ponto de interesse para visitantes que desejam entender mais sobre a história econômica e cultural que precedeu a formação do Jardim Botânico como o conhecemos atualmente.
-      </p>
+      <p>A Casa de Pilões é um dos elementos históricos do Jardim Botânico que remete à época colonial...</p>
     </div>
     <div class="image-container">
       <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_casadepiloes.json" allowfullscreen></iframe>
@@ -116,9 +87,7 @@
   <div class="content-section" id="section-entrada-principal">
     <div class="content-container">
       <h2>Entrada Principal</h2>
-      <p>
-        A entrada principal do Jardim Botânico do Rio de Janeiro é um marco icônico que dá as boas-vindas aos visitantes desde a sua fundação em 1808. Com uma arquitetura que mistura elementos clássicos e tropicais, a entrada é cercada por palmeiras imperiais e outras espécies nativas. É por este portal que os visitantes iniciam sua jornada por uma das mais ricas coleções botânicas do Brasil, onde podem explorar trilhas, estufas e jardins temáticos que abrigam milhares de espécies de plantas. A entrada simboliza não apenas o acesso ao Jardim, mas também a conexão entre a história, a ciência e a natureza.
-      </p>
+      <p>A entrada principal do Jardim Botânico do Rio de Janeiro é um marco icônico...</p>
     </div>
     <div class="image-container">
       <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json" allowfullscreen></iframe>
@@ -128,9 +97,7 @@
   <div class="content-section" id="section-aqueduto">
     <div class="content-container">
       <h2>Aqueduto</h2>
-      <p>
-        O Aqueduto do Jardim Botânico é uma lembrança marcante da infraestrutura utilizada para fornecer água às áreas de cultivo e jardins na época colonial. Construído em pedra e projetado para canalizar a água do rio próximo, o aqueduto foi uma parte vital do desenvolvimento do Jardim Botânico e de seus experimentos com plantas tropicais e exóticas. A estrutura, em meio à vegetação exuberante, ainda pode ser vista em partes do parque e remete ao engenho e à adaptação dos recursos naturais para sustentar a paisagem botânica. Este elemento histórico destaca a integração entre natureza e intervenção humana na formação do Jardim.
-      </p>
+      <p>O aqueduto do Jardim Botânico é uma estrutura histórica que servia para a distribuição de água...</p>
     </div>
     <div class="image-container">
       <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_aqueduto.json" allowfullscreen></iframe>
@@ -141,7 +108,7 @@
   <script>
     // Configuração do mapa Leaflet
     const map = L.map('map').setView([-22.975, -43.225], 15);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
@@ -155,19 +122,21 @@
 
     const map1844 = L.imageOverlay(
       'https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/mapa_1844.png',
-      [[-23.0169, -43.2705], [-22.9313, -43.1775]]
-          )],
+      [[-23.0169, -43.2705], [-22.9313, -43.1775]],
       { opacity: 0.7 }
     );
 
-    // Controle de camadas
-    document.getElementById('toggle1809').addEventListener('change', (e) => {
-      e.target.checked ? map.addLayer(map1809) : map.removeLayer(map1809);
-    });
+    // Adicionando o controle de camadas
+    const baseLayers = {
+      "OpenStreetMap": osmLayer,
+    };
 
-    document.getElementById('toggle1844').addEventListener('change', (e) => {
-      e.target.checked ? map.addLayer(map1844) : map.removeLayer(map1844);
-    });
+    const overlayMaps = {
+      "Mapa 1809": map1809,
+      "Mapa 1844": map1844,
+    };
+
+    L.control.layers(baseLayers, overlayMaps, { collapsed: false, position: 'topright' }).addTo(map);
 
     // Adicionando os pins e interações
     const chafarizMarker = L.marker([-22.9676, -43.2240]).addTo(map).bindPopup("Chafariz das Musas");
@@ -199,13 +168,7 @@
         }
       });
     });
-
-    function toggleLayerControl() {
-      const layerControl = document.getElementById('layer-control');
-      layerControl.style.display = layerControl.style.display === 'none' ? 'block' : 'none';
-    }
   </script>
 
 </body>
 </html>
-
