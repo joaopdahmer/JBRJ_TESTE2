@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jardim Botânico - Visualização Histórica</title>
+  <title>Jardim Botânico - Visualização Histórica IIIF</title>
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <style>
     body {
@@ -45,13 +46,7 @@
       white-space: nowrap;
     }
 
-    .carousel-container img {
-      height: 480px;
-      display: inline-block;
-      margin-right: 10px;
-    }
-
-    iframe {
+    .carousel-container iframe {
       width: 100%;
       height: 500px;
       border: none;
@@ -68,8 +63,7 @@
     </div>
     <div class="map-container" id="map-1809"></div>
     <div class="carousel-container" id="carousel-1809">
-      <img src="https://example.com/imagem1.jpg" alt="Imagem relacionada ao Mapa de 1809">
-      <!-- Adicione mais imagens conforme necessário -->
+      <iframe id="iframe-1809"></iframe>
     </div>
   </div>
 
@@ -81,40 +75,13 @@
       <p>Descrição e história do Jardim Botânico em 1844, mostrando a expansão e desenvolvimento...</p>
     </div>
     <div class="carousel-container" id="carousel-1844">
-      <img src="https://example.com/imagem2.jpg" alt="Imagem relacionada ao Mapa de 1844">
-      <!-- Adicione mais imagens conforme necessário -->
-    </div>
-  </div>
-
-  <!-- Seção Chafariz das Musas -->
-  <div class="section">
-    <div class="narrative">
-      <h2>Chafariz das Musas</h2>
-      <p>História e importância do Chafariz das Musas no Jardim Botânico...</p>
-    </div>
-    <div class="map-container" id="map-chafariz"></div>
-    <div class="carousel-container" id="carousel-chafariz">
-      <img src="https://example.com/chafariz1.jpg" alt="Imagem do Chafariz das Musas">
-      <!-- Adicione mais imagens conforme necessário -->
-    </div>
-  </div>
-
-  <!-- Seção Busto Frei Leandro -->
-  <div class="section">
-    <div class="map-container" id="map-busto"></div>
-    <div class="narrative">
-      <h2>Busto Frei Leandro</h2>
-      <p>Descrição e importância do Busto de Frei Leandro na história do Jardim Botânico...</p>
-    </div>
-    <div class="carousel-container" id="carousel-busto">
-      <img src="https://example.com/busto.jpg" alt="Imagem do Busto Frei Leandro">
-      <!-- Adicione mais imagens conforme necessário -->
+      <iframe id="iframe-1844"></iframe>
     </div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script>
-    function initializeMap(containerId, lat, lng, manifestUrl, carouselId) {
+    function initializeMap(containerId, lat, lng, manifestUrl, iframeId, carouselId) {
       const map = L.map(containerId).setView([lat, lng], 17);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
 
@@ -126,16 +93,15 @@
       });
 
       L.marker([lat, lng], { icon: pinIcon }).addTo(map).bindPopup("Ver imagem").on('click', () => {
-        document.getElementById('carousel-' + carouselId).style.display = 'block';
+        document.getElementById(iframeId).src = `https://projectmirador.org/embed/?iiif-content=${manifestUrl}`;
+        document.getElementById(carouselId).style.display = 'block';
         map.getContainer().style.display = 'none'; // Oculta o mapa para mostrar a imagem
       });
     }
 
-    // Inicializando mapas com pins e carrosséis
-    initializeMap('map-1809', -22.975, -43.225, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_mapa1809.json", '1809');
-    initializeMap('map-1844', -22.975, -43.225, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_mapa1844.json", '1844');
-    initializeMap('map-chafariz', -22.9676, -43.2240, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json", 'chafariz');
-    initializeMap('map-busto', -22.96851003, -43.22468785, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json", 'busto');
+    // Inicializando mapas com pins e visualização em Mirador
+    initializeMap('map-1809', -22.975, -43.225, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_mapa1809.json", 'iframe-1809', 'carousel-1809');
+    initializeMap('map-1844', -22.975, -43.225, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_mapa1844.json", 'iframe-1844', 'carousel-1844');
   </script>
 
 </body>
