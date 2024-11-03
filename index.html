@@ -14,11 +14,14 @@
       display: flex;
       flex-direction: column;
       height: 100vh;
+      overflow-x: hidden;
     }
 
     #map-container {
       height: 50vh;
-      position: relative;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     #map {
@@ -41,7 +44,7 @@
       display: flex;
       height: 50vh;
       margin-bottom: 20px;
-      overflow-y: auto;
+      align-items: center;
     }
 
     .content-container, .image-container {
@@ -76,7 +79,7 @@
 </head>
 <body>
 
-  <!-- Mapa na metade superior da tela -->
+  <!-- Mapa fixo na metade superior da tela -->
   <div id="map-container">
     <div id="map"></div>
     <div class="layer-control">
@@ -93,43 +96,43 @@
   </div>
 
   <!-- Seções de narrativas e imagens -->
-  <div class="content-section">
+  <div class="content-section" id="section-chafariz">
     <div class="content-container">
       <h2>Chafariz das Musas</h2>
-      <p>O Chafariz das Musas é uma obra emblemática do Jardim Botânico...</p>
+      <p>O Chafariz das Musas é uma obra emblemática do Jardim Botânico, destacando-se por sua beleza e história...</p>
     </div>
     <div class="image-container">
       <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json" allowfullscreen></iframe>
     </div>
   </div>
 
-  <div class="content-section">
+  <div class="content-section" id="section-frei-leandro">
     <div class="image-container">
       <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json" allowfullscreen></iframe>
     </div>
     <div class="content-container">
       <h2>Busto Frei Leandro</h2>
-      <p>O busto de Frei Leandro homenageia o grande botânico e diretor...</p>
+      <p>O busto de Frei Leandro homenageia um dos grandes botânicos e antigos diretores do Jardim Botânico...</p>
     </div>
   </div>
 
-  <div class="content-section">
+  <div class="content-section" id="section-casa-piloes">
     <div class="content-container">
       <h2>Casa de Pilões</h2>
-      <p>A Casa de Pilões representa a história da moagem de cana...</p>
+      <p>A Casa de Pilões representa a história da moagem de cana e é um símbolo da antiga produção agrícola...</p>
     </div>
     <div class="image-container">
       <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_casadepiloes.json" allowfullscreen></iframe>
     </div>
   </div>
 
-  <div class="content-section">
+  <div class="content-section" id="section-entrada-principal">
     <div class="image-container">
       <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json" allowfullscreen></iframe>
     </div>
     <div class="content-container">
       <h2>Entrada Principal</h2>
-      <p>A entrada principal do Jardim Botânico é a porta de entrada...</p>
+      <p>A entrada principal do Jardim Botânico é a porta de entrada para um dos maiores acervos botânicos do Brasil...</p>
     </div>
   </div>
 
@@ -160,6 +163,35 @@
 
     document.getElementById('toggle1844').addEventListener('change', (e) => {
       e.target.checked ? map.addLayer(map1844) : map.removeLayer(map1844);
+    });
+
+    // Adicionando os pins
+    const chafarizMarker = L.marker([-22.9676, -43.2240]).addTo(map).bindPopup("Chafariz das Musas");
+    const bustoMarker = L.marker([-22.9685, -43.2247]).addTo(map).bindPopup("Busto Frei Leandro");
+    const piloesMarker = L.marker([-22.9683, -43.2268]).addTo(map).bindPopup("Casa de Pilões");
+    const entradaMarker = L.marker([-22.9692, -43.2219]).addTo(map).bindPopup("Entrada Principal");
+
+    function zoomToMarker(marker) {
+      map.setView(marker.getLatLng(), 17);
+    }
+
+    function resetZoom() {
+      map.setView([-22.975, -43.225], 15);
+    }
+
+    const sections = document.querySelectorAll('.content-section');
+    window.addEventListener('scroll', () => {
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+          if (section.id === 'section-chafariz') zoomToMarker(chafarizMarker);
+          else if (section.id === 'section-frei-leandro') zoomToMarker(bustoMarker);
+          else if (section.id === 'section-casa-piloes') zoomToMarker(piloesMarker);
+          else if (section.id === 'section-entrada-principal') zoomToMarker(entradaMarker);
+        } else {
+          resetZoom();
+        }
+      });
     });
   </script>
 
