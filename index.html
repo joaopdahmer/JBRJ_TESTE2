@@ -22,7 +22,7 @@
       border-bottom: 1px solid #ddd;
     }
 
-    .map-container {
+    .map-container, .carousel-container {
       width: 50%;
       height: 500px;
       position: relative;
@@ -37,17 +37,23 @@
       height: 500px;
     }
 
-    #image-container {
+    .carousel-container {
       display: none;
-      width: 100%;
       background-color: white;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .carousel-container img {
+      height: 480px;
+      display: inline-block;
+      margin-right: 10px;
     }
 
     iframe {
       width: 100%;
-      height: 600px;
+      height: 500px;
       border: none;
     }
   </style>
@@ -61,6 +67,10 @@
       <p>Descrição e história do Jardim Botânico em 1809, destacando os elementos iniciais da construção...</p>
     </div>
     <div class="map-container" id="map-1809"></div>
+    <div class="carousel-container" id="carousel-1809">
+      <img src="https://example.com/imagem1.jpg" alt="Imagem relacionada ao Mapa de 1809">
+      <!-- Adicione mais imagens conforme necessário -->
+    </div>
   </div>
 
   <!-- Seção Mapa 1844 -->
@@ -69,6 +79,10 @@
     <div class="narrative">
       <h2>Mapa de 1844</h2>
       <p>Descrição e história do Jardim Botânico em 1844, mostrando a expansão e desenvolvimento...</p>
+    </div>
+    <div class="carousel-container" id="carousel-1844">
+      <img src="https://example.com/imagem2.jpg" alt="Imagem relacionada ao Mapa de 1844">
+      <!-- Adicione mais imagens conforme necessário -->
     </div>
   </div>
 
@@ -79,6 +93,10 @@
       <p>História e importância do Chafariz das Musas no Jardim Botânico...</p>
     </div>
     <div class="map-container" id="map-chafariz"></div>
+    <div class="carousel-container" id="carousel-chafariz">
+      <img src="https://example.com/chafariz1.jpg" alt="Imagem do Chafariz das Musas">
+      <!-- Adicione mais imagens conforme necessário -->
+    </div>
   </div>
 
   <!-- Seção Busto Frei Leandro -->
@@ -88,38 +106,15 @@
       <h2>Busto Frei Leandro</h2>
       <p>Descrição e importância do Busto de Frei Leandro na história do Jardim Botânico...</p>
     </div>
-  </div>
-
-  <!-- Seção Casa de Pilões -->
-  <div class="section">
-    <div class="narrative">
-      <h2>Casa de Pilões</h2>
-      <p>A história e o papel da Casa de Pilões no contexto do Jardim Botânico...</p>
+    <div class="carousel-container" id="carousel-busto">
+      <img src="https://example.com/busto.jpg" alt="Imagem do Busto Frei Leandro">
+      <!-- Adicione mais imagens conforme necessário -->
     </div>
-    <div class="map-container" id="map-piloes"></div>
-  </div>
-
-  <!-- Seção Entrada Principal -->
-  <div class="section">
-    <div class="map-container" id="map-entrada"></div>
-    <div class="narrative">
-      <h2>Entrada Principal</h2>
-      <p>A importância histórica da Entrada Principal e como ela se relaciona com a estrutura do Jardim Botânico...</p>
-    </div>
-  </div>
-
-  <!-- Seção Aqueduto -->
-  <div class="section">
-    <div class="narrative">
-      <h2>Aqueduto</h2>
-      <p>História e relevância do Aqueduto para o Jardim Botânico e suas funções ao longo do tempo...</p>
-    </div>
-    <div class="map-container" id="map-aqueduto"></div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script>
-    function initializeMap(containerId, lat, lng, manifestUrl) {
+    function initializeMap(containerId, lat, lng, manifestUrl, carouselId) {
       const map = L.map(containerId).setView([lat, lng], 17);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
 
@@ -131,19 +126,16 @@
       });
 
       L.marker([lat, lng], { icon: pinIcon }).addTo(map).bindPopup("Ver imagem").on('click', () => {
-        document.getElementById('image-frame').src = `https://projectmirador.org/embed/?iiif-content=${manifestUrl}`;
-        document.getElementById('image-container').style.display = 'block';
+        document.getElementById('carousel-' + carouselId).style.display = 'block';
+        map.getContainer().style.display = 'none'; // Oculta o mapa para mostrar a imagem
       });
     }
 
-    // Inicializando mapas com pins e manifestos
-    initializeMap('map-1809', -22.975, -43.225, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_mapa1809.json");
-    initializeMap('map-1844', -22.975, -43.225, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_mapa1844.json");
-    initializeMap('map-chafariz', -22.9676, -43.2240, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json");
-    initializeMap('map-busto', -22.96851003, -43.22468785, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json");
-    initializeMap('map-piloes', -22.9683360, -43.2268819, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_casadepiloes.json");
-    initializeMap('map-entrada', -22.96925637, -43.22192888, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json");
-    initializeMap('map-aqueduto', -22.96880231, -43.23052051, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_aqueduto.json");
+    // Inicializando mapas com pins e carrosséis
+    initializeMap('map-1809', -22.975, -43.225, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_mapa1809.json", '1809');
+    initializeMap('map-1844', -22.975, -43.225, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_mapa1844.json", '1844');
+    initializeMap('map-chafariz', -22.9676, -43.2240, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json", 'chafariz');
+    initializeMap('map-busto', -22.96851003, -43.22468785, "https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json", 'busto');
   </script>
 
 </body>
