@@ -80,7 +80,9 @@
   <div class="content-section" id="section-chafariz">
     <div class="content-container">
       <h2>Chafariz das Musas</h2>
-      <p>O Chafariz das Musas é uma das atrações mais icônicas do Jardim Botânico...</p>
+      <p>
+        O Chafariz das Musas é uma das peças centrais do Jardim Botânico do Rio de Janeiro. Instalado em 1895, o chafariz de ferro fundido foi importado da Inglaterra e apresenta figuras femininas que representam as musas da mitologia grega. Localizado em uma das áreas mais visitadas do Jardim, o Chafariz das Musas é cercado por árvores centenárias e plantas ornamentais, criando um espaço de contemplação e beleza. Esta obra é um exemplo da influência europeia na arquitetura e na paisagem do Jardim Botânico, sendo um ponto de parada obrigatório para os visitantes que desejam conhecer mais sobre a história e o simbolismo do local.
+      </p>
     </div>
     <div class="image-container">
       <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_chafarizdasmusas.json" allowfullscreen></iframe>
@@ -90,14 +92,50 @@
   <div class="content-section" id="section-frei-leandro">
     <div class="content-container">
       <h2>Busto Frei Leandro</h2>
-      <p>O busto de Frei Leandro homenageia um dos primeiros diretores do Jardim Botânico...</p>
+      <p>
+        O busto de Frei Leandro é uma homenagem a Frei Leandro do Sacramento, um dos primeiros diretores do Jardim Botânico e uma figura de grande relevância na botânica brasileira. Sob sua liderança, o Jardim se expandiu e se tornou um centro de estudos e aclimatação de plantas exóticas. O busto, esculpido em bronze, está situado em um local de destaque, cercado por espécies vegetais que simbolizam a diversidade e o empenho científico promovido por Frei Leandro durante o século XIX. A presença deste monumento lembra os esforços pioneiros para a criação e preservação de um dos principais jardins botânicos da América Latina.
+      </p>
     </div>
     <div class="image-container">
       <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_freileandro.json" allowfullscreen></iframe>
     </div>
   </div>
 
-  <!-- Outros trechos de narrativas aqui -->
+  <div class="content-section" id="section-casa-piloes">
+    <div class="content-container">
+      <h2>Casa de Pilões</h2>
+      <p>
+        A Casa de Pilões é um dos elementos históricos do Jardim Botânico que remete à época colonial. Originalmente, a estrutura era utilizada para a moagem de cana-de-açúcar, evidenciando o passado agrícola da região. Com paredes de pedra e arquitetura robusta, a Casa de Pilões é uma lembrança das antigas fazendas e engenhos que operavam nos arredores do Rio de Janeiro. Hoje, o espaço é um ponto de interesse para visitantes que desejam entender mais sobre a história econômica e cultural que precedeu a formação do Jardim Botânico como o conhecemos atualmente.
+      </p>
+    </div>
+    <div class="image-container">
+      <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_casadepiloes.json" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <div class="content-section" id="section-entrada-principal">
+    <div class="content-container">
+      <h2>Entrada Principal</h2>
+      <p>
+        A entrada principal do Jardim Botânico do Rio de Janeiro é um marco icônico que dá as boas-vindas aos visitantes desde a sua fundação em 1808. Com uma arquitetura que mistura elementos clássicos e tropicais, a entrada é cercada por palmeiras imperiais e outras espécies nativas. É por este portal que os visitantes iniciam sua jornada por uma das mais ricas coleções botânicas do Brasil, onde podem explorar trilhas, estufas e jardins temáticos que abrigam milhares de espécies de plantas. A entrada simboliza não apenas o acesso ao Jardim, mas também a conexão entre a história, a ciência e a natureza.
+      </p>
+    </div>
+    <div class="image-container">
+      <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <div class="content-section" id="section-aqueduto">
+    <div class="content-container">
+      <h2>Aqueduto</h2>
+      <p>
+        O Aqueduto do Jardim Botânico é uma lembrança marcante da infraestrutura utilizada para fornecer água às áreas de cultivo e jardins na época colonial. Construído em pedra e projetado para canalizar a água do rio próximo, o aqueduto foi uma parte vital do desenvolvimento do Jardim Botânico e de seus experimentos com plantas tropicais e exóticas. A estrutura, em meio à vegetação exuberante, ainda pode ser vista em partes do parque e remete ao engenho e à adaptação dos recursos naturais para sustentar a paisagem botânica. Este elemento histórico destaca a integração entre natureza e intervenção humana na formação do Jardim.
+      </p>
+    </div>
+    <div class="image-container">
+      <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_aqueduto.json" allowfullscreen></iframe>
+    </div>
+  </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script>
@@ -117,7 +155,8 @@
 
     const map1844 = L.imageOverlay(
       'https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/mapa_1844.png',
-      [[-23.0169, -43.2705], [-22.9313, -43.1775]],
+      [[-23.0169, -43.2705], [-22.9313, -43.1775]]
+          )],
       { opacity: 0.7 }
     );
 
@@ -133,6 +172,9 @@
     // Adicionando os pins e interações
     const chafarizMarker = L.marker([-22.9676, -43.2240]).addTo(map).bindPopup("Chafariz das Musas");
     const bustoMarker = L.marker([-22.9685, -43.2247]).addTo(map).bindPopup("Busto Frei Leandro");
+    const piloesMarker = L.marker([-22.9683, -43.2268]).addTo(map).bindPopup("Casa de Pilões");
+    const entradaMarker = L.marker([-22.9692, -43.2219]).addTo(map).bindPopup("Entrada Principal");
+    const aquedutoMarker = L.marker([-22.9688, -43.2305]).addTo(map).bindPopup("Aqueduto");
 
     function zoomToMarker(marker) {
       map.setView(marker.getLatLng(), 17);
@@ -144,11 +186,14 @@
 
     window.addEventListener('scroll', () => {
       const sections = document.querySelectorAll('.content-section');
-      sections.forEach((section, index) => {
+      sections.forEach((section) => {
         const rect = section.getBoundingClientRect();
         if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
           if (section.id === 'section-chafariz') zoomToMarker(chafarizMarker);
           else if (section.id === 'section-frei-leandro') zoomToMarker(bustoMarker);
+          else if (section.id === 'section-casa-piloes') zoomToMarker(piloesMarker);
+          else if (section.id === 'section-entrada-principal') zoomToMarker(entradaMarker);
+          else if (section.id === 'section-aqueduto') zoomToMarker(aquedutoMarker);
         } else {
           resetZoom();
         }
@@ -163,3 +208,4 @@
 
 </body>
 </html>
+
