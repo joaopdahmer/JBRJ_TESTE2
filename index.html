@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jardim Botânico - Narrativas e Mapa Interativo</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
   <style>
     body {
       margin: 0;
@@ -77,6 +78,16 @@
   </div>
 
   <!-- Seções de narrativas -->
+  <div class="content-section" id="section-entrada-principal">
+    <div class="content-container">
+      <h2>Entrada Principal</h2>
+      <p>A entrada principal do Jardim Botânico do Rio de Janeiro é mais do que um simples acesso; é um marco arquitetônico e histórico que remonta à fundação do Jardim em 1808 por Dom João VI. Com uma bela fachada cercada por palmeiras imperiais e plantas nativas, a entrada representa a união entre o patrimônio histórico e a riqueza botânica do local. Ao passar por este portal, os visitantes são recebidos por uma das mais variadas coleções de plantas do mundo, com trilhas, estufas e jardins temáticos que exibem a biodiversidade tropical. A entrada principal é um símbolo de boas-vindas e de conexão entre a cidade do Rio de Janeiro e um dos mais importantes centros de pesquisa e conservação do Brasil.</p>
+    </div>
+    <div class="image-container">
+      <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json" allowfullscreen></iframe>
+    </div>
+  </div>
+
   <div class="content-section" id="section-chafariz">
     <div class="content-container">
       <h2>Chafariz das Musas</h2>
@@ -107,16 +118,6 @@
     </div>
   </div>
 
-  <div class="content-section" id="section-entrada-principal">
-    <div class="content-container">
-      <h2>Entrada Principal</h2>
-      <p>A entrada principal do Jardim Botânico do Rio de Janeiro é mais do que um simples acesso; é um marco arquitetônico e histórico que remonta à fundação do Jardim em 1808 por Dom João VI. Com uma bela fachada cercada por palmeiras imperiais e plantas nativas, a entrada representa a união entre o patrimônio histórico e a riqueza botânica do local. Ao passar por este portal, os visitantes são recebidos por uma das mais variadas coleções de plantas do mundo, com trilhas, estufas e jardins temáticos que exibem a biodiversidade tropical. A entrada principal é um símbolo de boas-vindas e de conexão entre a cidade do Rio de Janeiro e um dos mais importantes centros de pesquisa e conservação do Brasil.</p>
-    </div>
-    <div class="image-container">
-      <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json" allowfullscreen></iframe>
-    </div>
-  </div>
-
   <div class="content-section" id="section-aqueduto">
     <div class="content-container">
       <h2>Aqueduto</h2>
@@ -128,10 +129,11 @@
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.min.js"></script>
   <script>
     // Configuração do mapa Leaflet
-    const map = L.map('map').setView([-22.975, -43.225], 15);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    const map = L.map('map').setView([-22.969, -43.222], 16);
+    L.tileLayer('https://{s}    .tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
@@ -158,17 +160,17 @@
     });
 
     // Adicionando os pins e interações
-    const chafarizMarker = L.marker([-22.9676, -43.2240]).addTo(map).bindPopup("Chafariz das Musas");
-    const bustoMarker = L.marker([-22.9685, -43.2247]).addTo(map).bindPopup("Busto Frei Leandro");
-    const piloesMarker = L.marker([-22.9683, -43.2268]).addTo(map).bindPopup("Casa de Pilões");
-    const entradaMarker = L.marker([-22.9692, -43.2219]).addTo(map).bindPopup("Entrada Principal");
-    const aquedutoMarker = L.marker([-22.9688, -43.2305]).addTo(map).bindPopup("Aqueduto");
+    const entradaMarker = L.marker([-22.9692573, -43.2219496]).addTo(map).bindPopup("Entrada Principal");
+    const chafarizMarker = L.marker([-22.9676649, -43.2240965]).addTo(map).bindPopup("Chafariz das Musas");
+    const bustoMarker = L.marker([-22.9685099, -43.2246488]).addTo(map).bindPopup("Busto Frei Leandro");
+    const piloesMarker = L.marker([-22.9684061, -43.2269140]).addTo(map).bindPopup("Casa de Pilões");
+    const aquedutoMarker = L.marker([-22.9687860, -43.2305703]).addTo(map).bindPopup("Aqueduto");
 
     const markers = {
+      'section-entrada-principal': entradaMarker,
       'section-chafariz': chafarizMarker,
       'section-frei-leandro': bustoMarker,
       'section-casa-piloes': piloesMarker,
-      'section-entrada-principal': entradaMarker,
       'section-aqueduto': aquedutoMarker
     };
 
@@ -196,6 +198,23 @@
       const layerControl = document.getElementById('layer-control');
       layerControl.style.display = layerControl.style.display === 'none' ? 'block' : 'none';
     }
+
+    // Adicionando a funcionalidade de roteamento ao mapa
+    L.Routing.control({
+      waypoints: [
+        L.latLng(-22.9692573, -43.2219496), // Entrada Principal
+        L.latLng(-22.9676649, -43.2240965), // Chafariz das Musas
+        L.latLng(-22.9685099, -43.2246488), // Busto Frei Leandro
+        L.latLng(-22.9684061, -43.2269140), // Casa de Pilões
+        L.latLng(-22.9687860, -43.2305703)  // Aqueduto
+      ],
+      routeWhileDragging: true,
+      createMarker: function(i, waypoint, n) {
+        return L.marker(waypoint.latLng, {
+          draggable: true
+        });
+      }
+    }).addTo(map);
   </script>
 
 </body>
