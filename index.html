@@ -15,6 +15,9 @@
     #map {
       height: 50vh;
       width: 100%;
+      position: fixed;
+      top: 0;
+      z-index: 100;
     }
 
     .content-section {
@@ -24,6 +27,7 @@
       padding: 20px;
       border-bottom: 1px solid #ccc;
       margin-bottom: 20px;
+      padding-top: 50vh; /* Cria um espaçamento para que o mapa não sobreponha o início das seções */
     }
 
     .content-container, .image-container {
@@ -38,7 +42,7 @@
       border: none;
     }
   </style>
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFEUF4a6YalIpRhyg45AUTzBV4Irkhtcw"></script>
 </head>
 <body>
 
@@ -129,6 +133,7 @@
           map: map,
           title: "Casa de Pilões",
         }),
+        'section-a
         'section-aqueduto': new google.maps.Marker({
           position: { lat: -22.9687860, lng: -43.2305703 },
           map: map,
@@ -136,19 +141,21 @@
         }),
       };
 
-      // Configuração da observação para zoom automático em seções
+      // Função para centralizar e aplicar zoom em um marcador específico
       function zoomToMarker(marker) {
         map.setCenter(marker.getPosition());
         map.setZoom(18);
       }
 
+      // Configuração da observação para aplicar zoom ao visualizar a narrativa
       const observerOptions = {
         root: null,
         rootMargin: "0px",
-        threshold: 0.5
+        threshold: 0.5,
       };
 
-      const observer = new IntersectionObserver((entries) => {        entries.forEach(entry => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
           if (entry.isIntersecting) {
             const marker = markers[entry.target.id];
             if (marker) {
@@ -168,4 +175,3 @@
 
 </body>
 </html>
-
