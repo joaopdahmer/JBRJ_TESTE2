@@ -137,11 +137,27 @@
     }).addTo(map);
 
     // Adicionando os pins e interações
-    const entradaMarker = L.marker([-22.9692573, -43.2219496    ]).addTo(map).bindPopup("Entrada Principal");
+    const entradaMarker = L.marker([-22.9692573    , -43.2219496]).addTo(map).bindPopup("Entrada Principal");
     const chafarizMarker = L.marker([-22.9676649, -43.2240965]).addTo(map).bindPopup("Chafariz das Musas");
     const bustoMarker = L.marker([-22.9685099, -43.2246488]).addTo(map).bindPopup("Busto Frei Leandro");
     const piloesMarker = L.marker([-22.9684061, -43.2269140]).addTo(map).bindPopup("Casa de Pilões");
     const aquedutoMarker = L.marker([-22.9687860, -43.2305703]).addTo(map).bindPopup("Aqueduto");
+
+    // Criando uma linha conectando os pontos da trilha
+    const trailCoordinates = [
+      [-22.9692573, -43.2219496], // Entrada Principal
+      [-22.9676649, -43.2240965], // Chafariz das Musas
+      [-22.9685099, -43.2246488], // Busto Frei Leandro
+      [-22.9684061, -43.2269140], // Casa de Pilões
+      [-22.9687860, -43.2305703]  // Aqueduto
+    ];
+
+    const trailPath = L.polyline(trailCoordinates, {
+      color: 'blue',
+      weight: 4,
+      opacity: 0.7,
+      lineJoin: 'round'
+    }).addTo(map);
 
     // Função para controle de exibição das camadas
     function toggleLayerControl() {
