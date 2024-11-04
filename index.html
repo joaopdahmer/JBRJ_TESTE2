@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jardim Botânico - Narrativas e Mapa Interativo</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
   <style>
     body {
       margin: 0;
@@ -129,43 +128,28 @@
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.min.js"></script>
   <script>
-    // Configuração do mapa Leaflet
-    const map = L.map('map').setView([-22.969, -43.222], 16);
-    L.tileLayer('https://{s}    .tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    // Configuração do mapa Leaflet centralizado no Arboreto do Jardim Botânico
+    const map = L.map('map').setView([-22.968, -43.224], 17);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Mapas sobrepostos (1809 e 1844)
-    const map1809 = L.imageOverlay(
-      'https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/mapa_1809.png',
-      [[-23.0113, -43.2596], [-22.9426, -43.1790]],
-      { opacity: 0.7 }
-    );
-
-    const map1844 = L.imageOverlay(
-      'https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/mapa_1844.png',
-      [[-23.0169, -43.2705], [-22.9313, -43.1775]],
-      { opacity: 0.7 }
-    );
-
-    document.getElementById('toggle1809').addEventListener('change', (e) => {
-      e.target.checked ? map.addLayer(map1809) : map.removeLayer(map1809);
-    });
-
-    document.getElementById('toggle1844').addEventListener('change', (e) => {
-      e.target.checked ? map.addLayer(map1844) : map.removeLayer(map1844);
-    });
-
     // Adicionando os pins e interações
-    const entradaMarker = L.marker([-22.9692573, -43.2219496]).addTo(map).bindPopup("Entrada Principal");
+    const entradaMarker = L.marker([-22.9692573, -43.2219496    ]).addTo(map).bindPopup("Entrada Principal");
     const chafarizMarker = L.marker([-22.9676649, -43.2240965]).addTo(map).bindPopup("Chafariz das Musas");
     const bustoMarker = L.marker([-22.9685099, -43.2246488]).addTo(map).bindPopup("Busto Frei Leandro");
     const piloesMarker = L.marker([-22.9684061, -43.2269140]).addTo(map).bindPopup("Casa de Pilões");
     const aquedutoMarker = L.marker([-22.9687860, -43.2305703]).addTo(map).bindPopup("Aqueduto");
 
+    // Função para controle de exibição das camadas
+    function toggleLayerControl() {
+      const layerControl = document.getElementById('layer-control');
+      layerControl.style.display = layerControl.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Configuração da observação para zoom automático em seções
     const markers = {
       'section-entrada-principal': entradaMarker,
       'section-chafariz': chafarizMarker,
@@ -193,29 +177,8 @@
     }, observerOptions);
 
     document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
-
-    function toggleLayerControl() {
-      const layerControl = document.getElementById('layer-control');
-      layerControl.style.display = layerControl.style.display === 'none' ? 'block' : 'none';
-    }
-
-    // Adicionando a funcionalidade de roteamento ao mapa
-    L.Routing.control({
-      waypoints: [
-        L.latLng(-22.9692573, -43.2219496), // Entrada Principal
-        L.latLng(-22.9676649, -43.2240965), // Chafariz das Musas
-        L.latLng(-22.9685099, -43.2246488), // Busto Frei Leandro
-        L.latLng(-22.9684061, -43.2269140), // Casa de Pilões
-        L.latLng(-22.9687860, -43.2305703)  // Aqueduto
-      ],
-      routeWhileDragging: true,
-      createMarker: function(i, waypoint, n) {
-        return L.marker(waypoint.latLng, {
-          draggable: true
-        });
-      }
-    }).addTo(map);
   </script>
 
 </body>
 </html>
+
