@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jardim Botânico - Narrativas e Mapa Interativo</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <style>
     body {
       margin: 0;
@@ -13,27 +12,9 @@
       overflow-x: hidden;
     }
 
-    #map-container {
-      height: 50vh;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
     #map {
+      height: 50vh;
       width: 100%;
-      height: 100%;
-    }
-
-    .layer-control {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
     }
 
     .content-section {
@@ -57,24 +38,12 @@
       border: none;
     }
   </style>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
 </head>
 <body>
 
   <!-- Mapa na parte superior da página -->
-  <div id="map-container">
-    <div id="map"></div>
-    <div class="layer-control" id="layer-control">
-      <button onclick="toggleLayerControl()">Recolher Camadas</button>
-      <div>
-        <input type="checkbox" id="toggle1809">
-        <label for="toggle1809">Mapa 1809</label>
-      </div>
-      <div>
-        <input type="checkbox" id="toggle1844">
-        <label for="toggle1844">Mapa 1844</label>
-      </div>
-    </div>
-  </div>
+  <div id="map"></div>
 
   <!-- Seções de narrativas -->
   <div class="content-section" id="section-entrada-principal">
@@ -127,74 +96,48 @@
     </div>
   </div>
 
-  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script>
-    // Configuração do mapa Leaflet centralizado no Arboreto do Jardim Botânico
-    const map = L.map('map').setView([-22.968, -43.224], 17);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+    function initMap() {
+      const mapOptions = {
+        zoom: 17,
+        center: { lat: -22.968, lng: -43.224 },
+      };
 
-    // Adicionando os pins e interações
-    const entradaMarker = L.marker([-22.9692573    , -43.2219496]).addTo(map).bindPopup("Entrada Principal");
-    const chafarizMarker = L.marker([-22.9676649, -43.2240965]).addTo(map).bindPopup("Chafariz das Musas");
-    const bustoMarker = L.marker([-22.9685099, -43.2246488]).addTo(map).bindPopup("Busto Frei Leandro");
-    const piloesMarker = L.marker([-22.9684061, -43.2269140]).addTo(map).bindPopup("Casa de Pilões");
-    const aquedutoMarker = L.marker([-22.9687860, -43.2305703]).addTo(map).bindPopup("Aqueduto");
+      const map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-    // Criando uma linha conectando os pontos da trilha
-    const trailCoordinates = [
-      [-22.9692573, -43.2219496], // Entrada Principal
-      [-22.9676649, -43.2240965], // Chafariz das Musas
-      [-22.9685099, -43.2246488], // Busto Frei Leandro
-      [-22.9684061, -43.2269140], // Casa de Pilões
-      [-22.9687860, -43.2305703]  // Aqueduto
-    ];
+      // Adicionando os marcadores
+      const markers = [
+        { position: { lat: -22.9692573, lng: -43.2219496 }, title: "Entrada Principal" },
+        { position: { lat: -22.9676649, lng: -43.2240965 }, title: "Chafariz das Musas" },
+        { position: { lat: -22.9685099, lng: -43.2246488 }, title: "Busto Frei Leandro" },
+        { position: { lat: -22.9684061, lng: -43.2269140 }, title: "Casa de Pilões" },
+        { position: { lat: -22.9687860, lng: -43.2305703 }, title: "Aqueduto" },
+      ];
 
-    const trailPath = L.polyline(trailCoordinates, {
-      color: 'blue',
-      weight: 4,
-      opacity: 0.7,
-      lineJoin: 'round'
-    }).addTo(map);
-
-    // Função para controle de exibição das camadas
-    function toggleLayerControl() {
-      const layerControl = document.getElementById('layer-control');
-      layerControl.style.display = layerControl.style.display === 'none' ? 'block' : 'none';
-    }
-
-    // Configuração da observação para zoom automático em seções
-    const markers = {
-      'section-entrada-principal': entradaMarker,
-      'section-chafariz': chafarizMarker,
-      'section-frei-leandro': bustoMarker,
-      'section-casa-piloes': piloesMarker,
-      'section-aqueduto': aquedutoMarker
-    };
-
-    function zoomToMarker(marker) {
-      map.flyTo(marker.getLatLng(), 18, { duration: 1.5 });
-    }
-
-    const observerOptions = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.5
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          zoomToMarker(markers[entry.target.id]);
-        }
+      markers.forEach(marker => {
+        new google.maps.Marker({
+          position: marker.position,
+          map: map,
+          title: marker.title,
+        });
       });
-    }, observerOptions);
 
-    document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
+      // Traçando a rota entre os pontos
+      const trailPath = new google.maps.Polyline({
+        path: markers.map(marker => marker.position),
+        geodesic: true,
+        strokeColor: '#0000FF',
+        strokeOpacity: 0.7,
+        strokeWeight: 4,
+      });
+
+      trailPath.setMap(map);
+    }
+  </script>
+
+  <script>
+    window.onload = initMap;
   </script>
 
 </body>
 </html>
-
