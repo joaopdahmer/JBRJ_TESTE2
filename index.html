@@ -38,7 +38,7 @@
       border: none;
     }
   </style>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFEUF4a6YalIpRhyg45AUTzBV4Irkhtcw"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
 </head>
 <body>
 
@@ -101,37 +101,64 @@
       const mapOptions = {
         zoom: 17,
         center: { lat: -22.968, lng: -43.224 },
+        disableDefaultUI: true,
+        draggable: false,
       };
 
       const map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
       // Adicionando os marcadores
-      const markers = [
-        { position: { lat: -22.9692573, lng: -43.2219496 }, title: "Entrada Principal" },
-        { position: { lat: -22.9676649, lng: -43.2240965 }, title: "Chafariz das Musas" },
-        { position: { lat: -22.9685099, lng: -43.2246488 }, title: "Busto Frei Leandro" },
-        { position: { lat: -22.9684061, lng: -43.2269140 }, title: "Casa de Pilões" },
-        { position: { lat: -22.9687860, lng: -43.2305703 }, title: "Aqueduto" },
-      ];
-
-      markers.forEach(marker => {
-        new google.maps.Marker({
-          position: marker.position,
+      const markers = {
+        'section-entrada-principal': new google.maps.Marker({
+          position: { lat: -22.9692573, lng: -43.2219496 },
           map: map,
-          title: marker.title,
+          title: "Entrada Principal",
+        }),
+        'section-chafariz': new google.maps.Marker({
+          position: { lat: -22.9676649, lng: -43.2240965 },
+          map: map,
+          title: "Chafariz das Musas",
+        }),
+        'section-frei-leandro': new google.maps.Marker({
+          position: { lat: -22.9685099, lng: -43.2246488 },
+          map: map,
+          title: "Busto Frei Leandro",
+        }),
+        'section-casa-piloes': new google.maps.Marker({
+          position: { lat: -22.9684061, lng: -43.2269140 },
+          map: map,
+          title: "Casa de Pilões",
+        }),
+        'section-aqueduto': new google.maps.Marker({
+          position: { lat: -22.9687860, lng: -43.2305703 },
+          map: map,
+          title: "Aqueduto",
+        }),
+      };
+
+      // Configuração da observação para zoom automático em seções
+      function zoomToMarker(marker) {
+        map.setCenter(marker.getPosition());
+        map.setZoom(18);
+      }
+
+      const observerOptions = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.5
+      };
+
+      const observer = new IntersectionObserver((entries) => {        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const marker = markers[entry.target.id];
+            if (marker) {
+              zoomToMarker(marker);
+            }
+          }
         });
-      });
+      }, observerOptions);
 
-      // Traçando a rota entre os pontos
-      const trailPath = new google.maps.Polyline({
-        path: markers.map(marker => marker.position),
-        geodesic: true,
-        strokeColor: '#0000FF',
-        strokeOpacity: 0.7,
-        strokeWeight: 4,
-      });
-
-      trailPath.setMap(map);
+      document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
     }
   </script>
 
@@ -141,3 +168,4 @@
 
 </body>
 </html>
+
