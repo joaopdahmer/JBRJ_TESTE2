@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jardim Botânico - Narrativas e Mapa Interativo</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <style>
     body {
       margin: 0;
@@ -12,12 +13,27 @@
       overflow-x: hidden;
     }
 
-    #map {
+    #map-container {
       height: 50vh;
-      width: 100%;
-      position: fixed;
+      position: sticky;
       top: 0;
       z-index: 100;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+
+    .layer-control {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
     }
 
     .content-section {
@@ -27,7 +43,6 @@
       padding: 20px;
       border-bottom: 1px solid #ccc;
       margin-bottom: 20px;
-      padding-top: 50vh; /* Cria um espaçamento para que o mapa não sobreponha o início das seções */
     }
 
     .content-container, .image-container {
@@ -42,24 +57,26 @@
       border: none;
     }
   </style>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFEUF4a6YalIpRhyg45AUTzBV4Irkhtcw"></script>
 </head>
 <body>
 
   <!-- Mapa na parte superior da página -->
-  <div id="map"></div>
-
-  <!-- Seções de narrativas -->
-  <div class="content-section" id="section-entrada-principal">
-    <div class="content-container">
-      <h2>Entrada Principal</h2>
-      <p>A entrada principal do Jardim Botânico do Rio de Janeiro é mais do que um simples acesso; é um marco arquitetônico e histórico que remonta à fundação do Jardim em 1808 por Dom João VI. Com uma bela fachada cercada por palmeiras imperiais e plantas nativas, a entrada representa a união entre o patrimônio histórico e a riqueza botânica do local. Ao passar por este portal, os visitantes são recebidos por uma das mais variadas coleções de plantas do mundo, com trilhas, estufas e jardins temáticos que exibem a biodiversidade tropical. A entrada principal é um símbolo de boas-vindas e de conexão entre a cidade do Rio de Janeiro e um dos mais importantes centros de pesquisa e conservação do Brasil.</p>
-    </div>
-    <div class="image-container">
-      <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json" allowfullscreen></iframe>
+  <div id="map-container">
+    <div id="map"></div>
+    <div class="layer-control" id="layer-control">
+      <button onclick="toggleLayerControl()">Recolher Camadas</button>
+      <div>
+        <input type="checkbox" id="toggle1809">
+        <label for="toggle1809">Mapa 1809</label>
+      </div>
+      <div>
+        <input type="checkbox" id="toggle1844">
+        <label for="toggle1844">Mapa 1844</label>
+      </div>
     </div>
   </div>
 
+  <!-- Seções de narrativas -->
   <div class="content-section" id="section-chafariz">
     <div class="content-container">
       <h2>Chafariz das Musas</h2>
@@ -90,6 +107,16 @@
     </div>
   </div>
 
+  <div class="content-section" id="section-entrada-principal">
+    <div class="content-container">
+      <h2>Entrada Principal</h2>
+      <p>A entrada principal do Jardim Botânico do Rio de Janeiro é mais do que um simples acesso; é um marco arquitetônico e histórico que remonta à fundação do Jardim em 1808 por Dom João VI. Com uma bela fachada cercada por palmeiras imperiais e plantas nativas, a entrada representa a união entre o patrimônio histórico e a riqueza botânica do local. Ao passar por este portal, os visitantes são recebidos por uma das mais variadas coleções de plantas do mundo, com trilhas, estufas e jardins temáticos que exibem a biodiversidade tropical. A entrada principal é um símbolo de boas-vindas e de conexão entre a cidade do Rio de Janeiro e um dos mais importantes centros de pesquisa e conservação do Brasil.</p>
+    </div>
+    <div class="image-container">
+      <iframe src="https://projectmirador.org/embed/?iiif-content=https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/manifest_entradaprincipal.json" allowfullscreen></iframe>
+    </div>
+  </div>
+
   <div class="content-section" id="section-aqueduto">
     <div class="content-container">
       <h2>Aqueduto</h2>
@@ -100,77 +127,75 @@
     </div>
   </div>
 
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script>
-    function initMap() {
-      const mapOptions = {
-        zoom: 17,
-        center: { lat: -22.968, lng: -43.224 },
-        disableDefaultUI: true,
-        draggable: false,
-      };
+    // Configuração do mapa Leaflet
+    const map = L.map('map').setView([-22.975, -43.225], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
 
-      const map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    // Mapas sobrepostos (1809 e 1844)
+    const map1809 = L.imageOverlay(
+      'https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/mapa_1809.png',
+      [[-23.0113, -43.2596], [-22.9426, -43.1790]],
+      { opacity: 0.7 }
+    );
 
-      // Adicionando os marcadores
-      const markers = {
-        'section-entrada-principal': new google.maps.Marker({
-          position: { lat: -22.9692573, lng: -43.2219496 },
-          map: map,
-          title: "Entrada Principal",
-        }),
-        'section-chafariz': new google.maps.Marker({
-          position: { lat: -22.9676649, lng: -43.2240965 },
-          map: map,
-          title: "Chafariz das Musas",
-        }),
-        'section-frei-leandro': new google.maps.Marker({
-          position: { lat: -22.9685099, lng: -43.2246488 },
-          map: map,
-          title: "Busto Frei Leandro",
-        }),
-        'section-casa-piloes': new google.maps.Marker({
-          position: { lat: -22.9684061, lng: -43.2269140 },
-          map: map,
-          title: "Casa de Pilões",
-        }),
-        'section-a
-        'section-aqueduto': new google.maps.Marker({
-          position: { lat: -22.9687860, lng: -43.2305703 },
-          map: map,
-          title: "Aqueduto",
-        }),
-      };
+    const map1844 = L.imageOverlay(
+      'https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/mapa_1844.png',
+      [[-23.0169, -43.2705], [-22.9313, -43.1775]],
+      { opacity: 0.7 }
+    );
 
-      // Função para centralizar e aplicar zoom em um marcador específico
-      function zoomToMarker(marker) {
-        map.setCenter(marker.getPosition());
-        map.setZoom(18);
-      }
+    document.getElementById('toggle1809').addEventListener('change', (e) => {
+      e.target.checked ? map.addLayer(map1809) : map.removeLayer(map1809);
+    });
 
-      // Configuração da observação para aplicar zoom ao visualizar a narrativa
-      const observerOptions = {
-        root: null,
-        rootMargin: "0px",
-        threshold: 0.5,
-      };
+    document.getElementById('toggle1844').addEventListener('change', (e) => {
+      e.target.checked ? map.addLayer(map1844) : map.removeLayer(map1844);
+    });
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const marker = markers[entry.target.id];
-            if (marker) {
-              zoomToMarker(marker);
-            }
-          }
-        });
-      }, observerOptions);
+    // Adicionando os pins e interações
+    const chafarizMarker = L.marker([-22.9676, -43.2240]).addTo(map).bindPopup("Chafariz das Musas");
+    const bustoMarker = L.marker([-22.9685, -43.2247]).addTo(map).bindPopup("Busto Frei Leandro");
+    const piloesMarker = L.marker([-22.9683, -43.2268]).addTo(map).bindPopup("Casa de Pilões");
+    const entradaMarker = L.marker([-22.9692, -43.2219]).addTo(map).bindPopup("Entrada Principal");
+    const aquedutoMarker = L.marker([-22.9688, -43.2305]).addTo(map).bindPopup("Aqueduto");
 
-      document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
+    const markers = {
+      'section-chafariz': chafarizMarker,
+      'section-frei-leandro': bustoMarker,
+      'section-casa-piloes': piloesMarker,
+      'section-entrada-principal': entradaMarker,
+      'section-aqueduto': aquedutoMarker
+    };
+
+    function zoomToMarker(marker) {
+      map.flyTo(marker.getLatLng(), 18, { duration: 1.5 });
     }
-  </script>
 
-  <script>
-    window.onload = initMap;
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.5
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          zoomToMarker(markers[entry.target.id]);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
+
+    function toggleLayerControl() {
+      const layerControl = document.getElementById('layer-control');
+      layerControl.style.display = layerControl.style.display === 'none' ? 'block' : 'none';
+    }
   </script>
 
 </body>
