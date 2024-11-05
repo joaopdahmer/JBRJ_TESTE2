@@ -129,6 +129,25 @@
   </div>
 
   <!-- Seções de narrativas -->
+  <!-- Entrada Principal -->
+  <div class="content-section" id="section-entrada-principal">
+    <div class="content-container">
+      <h2>Entrada Principal</h2>
+      <p>A entrada principal do Jardim Botânico do Rio de Janeiro é mais do que um simples acesso; é um marco arquitetônico e histórico que remonta à fundação do Jardim em 1808 por Dom João VI. Com uma bela fachada cercada por palmeiras imperiais e plantas nativas, a entrada representa a união entre o patrimônio histórico e a riqueza botânica do local. Ao passar por este portal, os visitantes são recebidos por uma das mais variadas coleções de plantas do mundo, com trilhas, estufas e jardins temáticos que exibem a biodiversidade tropical. A entrada principal é um símbolo de boas-vindas e de conexão entre a cidade do Rio de Janeiro e um dos mais importantes centros de pesquisa e conservação do Brasil.</p>
+    </div>
+    <div class="image-container">
+      <img src="https://acervo.jbrj.gov.br/wp-content/uploads/tainacan-items/431453/551242/PFA01_E008_F003.jpg" alt="Entrada Principal" onclick="openModal('modal-entrada-principal')">
+    </div>
+  </div>
+
+  <!-- Modal para Entrada Principal -->
+  <div id="modal-entrada-principal" class="modal">
+    <span class="close" onclick="closeModal('modal-entrada-principal')">&times;</span>
+    <div class="modal-content">
+      <img src="https://acervo.jbrj.gov.br/wp-content/uploads/tainacan-items/431453/551242/PFA01_E008_F003.jpg" alt="Entrada Principal">
+    </div>
+  </div>
+
   <!-- Chafariz das Musas -->
   <div class="content-section" id="section-chafariz">
     <div class="content-container">
@@ -186,25 +205,6 @@
     </div>
   </div>
 
-  <!-- Entrada Principal -->
-  <div class="content-section" id="section-entrada-principal">
-    <div class="content-container">
-      <h2>Entrada Principal</h2>
-      <p>A entrada principal do Jardim Botânico do Rio de Janeiro é mais do que um simples acesso; é um marco arquitetônico e histórico que remonta à fundação do Jardim em 1808 por Dom João VI. Com uma bela fachada cercada por palmeiras imperiais e plantas nativas, a entrada representa a união entre o patrimônio histórico e a riqueza botânica do local. Ao passar por este portal, os visitantes são recebidos por uma das mais variadas coleções de plantas do mundo, com trilhas, estufas e jardins temáticos que exibem a biodiversidade tropical. A entrada principal é um símbolo de boas-vindas e de conexão entre a cidade do Rio de Janeiro e um dos mais importantes centros de pesquisa e conservação do Brasil.</p>
-    </div>
-    <div class="image-container">
-      <img src="https://acervo.jbrj.gov.br/wp-content/uploads/tainacan-items/431453/551242/PFA01_E008_F003.jpg" alt="Entrada Principal" onclick="openModal('modal-entrada-principal')">
-    </div>
-  </div>
-
-  <!-- Modal para Entrada Principal -->
-  <div id="modal-entrada-principal" class="modal">
-    <span class="close" onclick="closeModal('modal-entrada-principal')">&times;</span>
-    <div class="modal-content">
-      <img src="https://acervo.jbrj.gov.br/wp-content/uploads/tainacan-items/431453/551242/PFA01_E008_F003.jpg" alt="Entrada Principal">
-    </div>
-  </div>
-
   <!-- Aqueduto -->
   <div class="content-section" id="section-aqueduto">
     <div class="content-container">
@@ -257,17 +257,17 @@
     });
 
     // Adicionando os pins e interações
+    const entradaMarker = L.marker([-22.9692, -43.2219]).addTo(map).bindPopup("Entrada Principal");
     const chafarizMarker = L.marker([-22.9676, -43.2240]).addTo(map).bindPopup("Chafariz das Musas");
     const bustoMarker = L.marker([-22.9685, -43.2247]).addTo(map).bindPopup("Busto Frei Leandro");
     const piloesMarker = L.marker([-22.9683, -43.2268]).addTo(map).bindPopup("Casa de Pilões");
-    const entradaMarker = L.marker([-22.9692, -43.2219]).addTo(map).bindPopup("Entrada Principal");
     const aquedutoMarker = L.marker([-22.9688, -43.2305]).addTo(map).bindPopup("Aqueduto");
 
     const markers = {
+      'section-entrada-principal': entradaMarker,
       'section-chafariz': chafarizMarker,
       'section-frei-leandro': bustoMarker,
       'section-casa-piloes': piloesMarker,
-      'section-entrada-principal': entradaMarker,
       'section-aqueduto': aquedutoMarker
     };
 
